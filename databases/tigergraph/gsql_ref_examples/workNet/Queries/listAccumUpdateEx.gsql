@@ -1,0 +1,18 @@
+CREATE QUERY listAccumUpdateEx() FOR GRAPH workNet {
+
+  # Global ListAccum
+  ListAccum<INT> @@intListAccum;
+  ListAccum<STRING> @@stringListAccum;
+  ListAccum<BOOL> @@passFail;
+
+  @@intListAccum += [0,2,4,6,8];
+  @@stringListAccum += ["apple","banana","carrot","daikon"];
+
+  # Global update at Query-Body Level
+  @@passFail += @@intListAccum.update(1,-99);
+  @@passFail += @@intListAccum.update(@@intListAccum.size()-1,40);  // last element
+  @@passFail += @@stringListAccum.update(0,"zero"); // first element
+  @@passFail += @@stringListAccum.update(4,"four"); // FAIL: out-of-range
+
+  PRINT @@intListAccum, @@stringListAccum, @@passFail;
+}

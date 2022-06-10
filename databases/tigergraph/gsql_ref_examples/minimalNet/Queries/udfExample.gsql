@@ -1,0 +1,14 @@
+# before compiling this query
+# put code in greater_than_three.hpp into
+# <tigergraph.root.dir>/dev/gdk/gsql/src/QueryUdf/ExprFunction.hpp
+CREATE QUERY udfExample() FOR GRAPH minimalNet   {
+  DOUBLE x;
+  BOOL y;
+
+  x = 3.5;
+  PRINT greater_than_three(x);
+  y = greater_than_three(2.5);
+  PRINT y;
+
+  PRINT reverse("abc");
+}

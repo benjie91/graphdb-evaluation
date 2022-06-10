@@ -1,0 +1,7 @@
+# Updated 2/24/18 for v1.2
+DROP ALL
+CREATE VERTEX testV(PRIMARY_ID id STRING)
+CREATE UNDIRECTED EDGE testE(FROM testV, TO testV)
+CREATE GRAPH minimalNet(*)
+
+

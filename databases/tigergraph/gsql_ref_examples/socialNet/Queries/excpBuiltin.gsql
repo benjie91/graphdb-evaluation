@@ -1,0 +1,3 @@
+CREATE QUERY excpBuiltin(INT n1) FOR GRAPH socialNet {
+  PRINT 100.0/n1;
+}

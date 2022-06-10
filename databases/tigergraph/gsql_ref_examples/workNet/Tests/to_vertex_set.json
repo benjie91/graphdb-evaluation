@@ -1,0 +1,64 @@
+GSQL > RUN QUERY to_vertex_set(["person1","personx","person2"], "person3", "person")
+{
+  "error": false,
+  "message": "Runtime Warning: 1 ids are invalid person vertex ids.",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"v": "person3"},
+    {"@@v2": ["person3"]},
+    {"S2": [
+      {
+        "v_id": "person1",
+        "attributes": {
+          "interestList": [
+            "management",
+            "financial"
+          ],
+          "skillSet": [
+            3,
+            2,
+            1
+          ],
+          "skillList": [
+            1,
+            2,
+            3
+          ],
+          "locationId": "us",
+          "interestSet": [
+            "financial",
+            "management"
+          ],
+          "id": "person1"
+        },
+        "v_type": "person"
+      },
+      {
+        "v_id": "person2",
+        "attributes": {
+          "interestList": ["engineering"],
+          "skillSet": [
+            6,
+            5,
+            3,
+            2
+          ],
+          "skillList": [
+            2,
+            3,
+            5,
+            6
+          ],
+          "locationId": "chn",
+          "interestSet": ["engineering"],
+          "id": "person2"
+        },
+        "v_type": "person"
+      }
+    ]},
+    {"SDIFF.size()": 0}
+  ]
+}

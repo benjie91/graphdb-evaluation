@@ -1,0 +1,44 @@
+README for examples/gsql_ref
+Revised 3/4/2018
+
+This folder contains command scripts and data files for the working examples
+in the GSQL Language Reference document, particularly for Part 2 - Querying.
+
+For GSQL Language Reference Part 1
+book_rating/ 
+    graph schema, schema change jobs, and loading jobs used in the GSQL Language Reference
+    Part 1, which focuses on graph schema design and data loading
+
+For GSQL Language Reference Part 2:
+computerNet/
+friendNet/
+investmentNet/
+minimalNet/
+socialNet/
+workNet/
+
+Within each folder are 3 subfolders:
+   Graph/    gsql script and data files to create a graph and load data
+   Queries/  Each gsql file here defines a query (i.e., a CREATE QUERY block)
+   Tests/    For each query, there is a *_run.gsql or *_run.curl file and a *json file.
+             Each run file contains one or more examples of running the query.
+             Note that a few queries require external data files.
+             At least one query requires that a user-defined function be installed.
+
+             The json file is the the expected output.
+             Note that the order of elements in your output might differ and still be correct.
+             TigerGraph uses a json array [ ] for both list output (ordered)
+             and set output (unordered). That is, seeing [ ] brackets does not always mean
+             the order is important.
+
+             At least one query uses the SAMPLE feature, where output varies.
+             Some queries modify the graph data. They have been placed in separate folders.
+
+There also 4 scripts to help you run the queries in batch mode:
+graph_install.sh     Create a graph and load data.
+queries_install.sh   Define all the queries for a graph and optionally install them.
+run_queries.sh       Run one or all queries for a graph
+json_compress.sh     Tries to pack small JSON arrays onto a single line, in order to save space.
+                     This is a postprocessing script, for existing JSON data.
+
+

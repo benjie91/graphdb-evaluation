@@ -1,0 +1,23 @@
+#List out all companies from a given country
+CREATE QUERY companyByCountry(STRING countryName) FOR GRAPH workNet   {
+  MapAccum <STRING, ListAccum<STRING>> @@companies;
+  start = {company.*};                   # start will have a set of all company type vertices
+
+  #Build a map using company country as a key and a list of strings to hold multiple company ids
+  s = SELECT v FROM start:v
+      ACCUM @@companies += (v.country -> v.id);
+
+  #Iterate the map using (key,value) pairs
+  FOREACH (key,val) IN @@companies DO
+    IF key != countryName THEN
+      CONTINUE;
+    END;
+
+    PRINT val.size();
+
+    #Nested foreach to iterate over the list of company ids
+    FOREACH comp IN val DO
+      PRINT comp;
+    END;
+  END;
+}

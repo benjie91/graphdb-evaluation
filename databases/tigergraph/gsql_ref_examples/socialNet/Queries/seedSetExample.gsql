@@ -1,0 +1,18 @@
+CREATE QUERY seedSetExample(VERTEX v1, VERTEX<person> v2, SET<VERTEX> v3, SET<VERTEX<person>> v4) FOR GRAPH socialNet   {
+  SetAccum<VERTEX> @@testSet;
+  SetAccum<VERTEX<person>> @@testSet2;
+
+  S1 = { v1 };
+  S2 = { v2 };
+  S3 = v3;
+  S4 = v4;
+  S5 = @@testSet;
+  S6 = @@testSet2;
+  S7 = ANY;                      # All vertices
+  S8 = person.*;                 # All person vertices
+  S9 = _;                        # Equivalent to ANY
+  S10 = SelectVertex("absolute_path_to_input_file", $0, post, ",", false);   # See Section "SelectVertex()" function
+  S11 = S1;                      
+  S12 = {@@testSet, v2, v3};   # S1 is not allowed to be in {}
+  S13 = S11 UNION S12;           # but we can use UNION to combine S1
+}

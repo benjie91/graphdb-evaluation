@@ -1,0 +1,20 @@
+# AndAccum and OrAccum Example
+CREATE QUERY andOrAccumEx() FOR GRAPH minimalNet   {
+  # T = True
+  # F = False
+
+  AndAccum @@andAccumVar; # (default value = T)
+  OrAccum  @@orAccumVar;  # (default value = F)
+
+  @@andAccumVar += True;  # T and T = T
+  @@andAccumVar += False; # T and F = F
+  @@andAccumVar += True;  # F and T = F
+
+  PRINT @@andAccumVar;
+
+  @@orAccumVar += False;  # F or F == F
+  @@orAccumVar += True;   # F or T == T
+  @@orAccumVar += False;  # T or F == T
+
+  PRINT @@orAccumVar;
+}

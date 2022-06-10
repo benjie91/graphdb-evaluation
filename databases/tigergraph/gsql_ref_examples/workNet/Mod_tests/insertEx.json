@@ -1,0 +1,6 @@
+$ gsql 'RUN QUERY whoWorksForCompany("gsql")'
+Semantic Check Fails: the query whoWorksForCompany doesn't exist!
+$ gsql 'RUN QUERY insertEx("tic", "tac", "toe", "gsql")'
+Semantic Check Fails: the query insertEx doesn't exist!
+$ gsql 'RUN QUERY sertEx("gsql")'
+Semantic Check Fails: the query sertEx doesn't exist!

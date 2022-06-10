@@ -1,0 +1,4 @@
+RUN QUERY whoWorksForCompany("gsql")
+RUN QUERY insertEx("tic", "tac", "toe", "gsql")
+RUN QUERY sertEx("gsql")
+RUN QUERY whoWorksForCompany("gsql")

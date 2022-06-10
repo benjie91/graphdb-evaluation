@@ -1,0 +1,4 @@
+$ gsql 'RUN QUERY selectUserPosts("person3")'
+Semantic Check Fails: the query selectUserPosts doesn't exist!
+$ gsql 'RUN QUERY deletePosts("person3")'
+Semantic Check Fails: the query deletePosts doesn't exist!

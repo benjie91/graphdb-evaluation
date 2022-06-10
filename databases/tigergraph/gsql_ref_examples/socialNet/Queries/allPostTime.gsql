@@ -1,0 +1,6 @@
+# Show all posts's post time
+CREATE QUERY allPostTime() FOR GRAPH socialNet api("v2") {
+  start = {post.*};
+  #PRINT datetime_format(start.postTime, "a message was posted at %H:%M:%S on %Y/%m/%d");
+  PRINT start[datetime_format(start.postTime, "a message was posted at %H:%M:%S on %Y/%m/%d") as postTimeMsg]; // api v2
+}

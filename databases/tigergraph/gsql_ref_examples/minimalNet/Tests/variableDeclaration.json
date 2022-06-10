@@ -1,0 +1,24 @@
+GSQL > RUN QUERY variableDeclaration()
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {
+      "a": 5,
+      "b": 1,
+      "c": 0,
+      "d": 10
+    },
+    {
+      "@@max3": -9223372036854775808,
+      "@@max2": 5,
+      "@@max1": 3,
+      "@@max5": 2,
+      "@@max4": -9223372036854775808
+    }
+  ]
+}

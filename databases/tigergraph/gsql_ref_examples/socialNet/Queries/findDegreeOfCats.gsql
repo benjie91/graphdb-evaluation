@@ -1,0 +1,24 @@
+# find posts of a given person, and post of friends of that person, friends of friends, etc
+# until a post about cats is found. The number of friend-hops to reach is the 'degree' of cats
+CREATE QUERY findDegreeOfCats(vertex<person> seed) FOR GRAPH socialNet  
+{
+    SumAccum<INT> @@degree = 0;
+    OrAccum @@foundCatPost = false;
+    OrAccum @visited = false;
+
+    friends (ANY) = {seed};
+    WHILE @@foundCatPost != true AND friends.size() > 0 DO
+          posts = SELECT v FROM friends-(posted:e)->:v
+                  ACCUM CASE WHEN v.subject == "cats" THEN @@foundCatPost += true END;
+
+          IF @@foundCatPost THEN
+            BREAK;
+          END;
+
+          friends = SELECT v FROM friends-(friend:e)->:v
+                  WHERE v.@visited == false
+                  ACCUM v.@visited = true;
+          @@degree += 1;
+    END;
+    PRINT @@degree;
+}

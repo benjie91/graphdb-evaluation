@@ -1,0 +1,28 @@
+# use a more advanced activity calculation, taking into account number of posts
+# and number of likes that a user made
+CREATE QUERY calculateInDepthActivity(vertex<person> seed) FOR GRAPH socialNet  
+{
+    SumAccum<INT> @@numberPosts = 0;
+    SumAccum<INT> @@numberLikes = 0;
+    start = {seed};
+    result = SELECT postVertex FROM start -(posted:e)-> :postVertex
+           ACCUM @@numberPosts += 1;
+    result = SELECT likedPost FROM start -(liked:e)-> :likedPost
+           ACCUM @@numberLikes += 1;
+
+    IF @@numberPosts < 2 THEN
+        IF @@numberLikes < 1 THEN
+            PRINT "Not very active";
+        ELSE
+            PRINT "Semi-active";
+        END;
+    ELSE IF @@numberPosts < 3 THEN
+        IF @@numberLikes < 2 THEN
+            PRINT "Semi-active";
+        ELSE
+            PRINT "Active";
+        END;
+    ELSE
+        PRINT "Very active";
+    END;
+}

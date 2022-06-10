@@ -1,0 +1,8 @@
+$ gsql 'RUN QUERY countAtLocation("us")'
+Semantic Check Fails: the query countAtLocation doesn't exist!
+$ gsql 'RUN QUERY deleteEx2()'
+Semantic Check Fails: the query deleteEx2 doesn't exist!
+$ gsql 'RUN QUERY countAtLocation("us")'
+Semantic Check Fails: the query countAtLocation doesn't exist!
+$ gsql 'RUN QUERY deleteEx()'
+Semantic Check Fails: the query deleteEx doesn't exist!

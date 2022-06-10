@@ -1,0 +1,26 @@
+GSQL > RUN QUERY countFriendsOf2("person2", true)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{
+    "@@numFriends": 5,
+    "includeCoworkers": true
+  }]
+}
+GSQL > RUN QUERY countFriendsOf2("person2", false)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{
+    "@@numFriends": 2,
+    "includeCoworkers": false
+  }]
+}

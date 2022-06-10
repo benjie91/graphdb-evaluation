@@ -1,0 +1,30 @@
+# find all 3-hop friends of a starting vertex. count coworkers as friends
+# if there are not enough friends
+CREATE QUERY findEnoughFriends(vertex<person> seed) FOR GRAPH friendNet
+{
+    SumAccum<INT> @@distance = 0;   # keep track of the distance from the seed
+    OrAccum @visited = false;
+    visitedVertices = {seed};
+    WHILE true LIMIT 3 DO
+        @@distance += 1;
+        # traverse from visitedVertices to its friends
+        friends = SELECT v
+            FROM visitedVertices -(friend:e)-> :v
+            WHERE v.@visited == false
+            POST-ACCUM v.@visited = true;
+        PRINT @@distance, friends;
+
+        # if number of friends at this level is sufficient, finish this iteration
+        IF visitedVertices.size() >= 2 THEN
+            visitedVertices = friends;
+            CONTINUE;
+        END;
+        # if fewer than 4 friends, add in coworkers
+        coworkers = SELECT v
+            FROM visitedVertices -(coworker:e)-> :v
+            WHERE v.@visited == false
+            POST-ACCUM v.@visited = true;
+        visitedVertices = friends UNION coworkers;
+        PRINT @@distance, coworkers;
+    END;
+}

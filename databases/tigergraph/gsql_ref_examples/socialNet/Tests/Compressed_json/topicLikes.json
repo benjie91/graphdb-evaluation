@@ -1,0 +1,14 @@
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"@@likesByTopic": {
+    "cats": 3,
+    "coffee": 2,
+    "Graphs": 3,
+    "tigergraph": 1
+  }}]
+}

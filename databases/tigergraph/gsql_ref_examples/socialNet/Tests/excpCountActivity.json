@@ -1,0 +1,3 @@
+curl -X GET "http://localhost:9000/query/socialNet/excpCountActivity?vSet=person2&vSet=person6&eType=posted"
+curl -X GET "http://localhost:9000/query/socialNet/excpCountActivity?vset=person2&vset=person6&eType=posted"
+curl -X GET "http://localhost:9000/query/socialNet/excpCountActivity?vSet=person2&vSet=person6&eType=commented"

@@ -1,0 +1,3 @@
+RUN QUERY selectUserPosts("person3")
+RUN QUERY deletePosts("person3")
+RUN QUERY selectUserPosts("person3")

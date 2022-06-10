@@ -1,0 +1,10 @@
+GSQL > RUN QUERY personGender("Female")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"@@genderCount": 3}]
+}

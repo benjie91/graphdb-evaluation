@@ -1,0 +1,26 @@
+GSQL > RUN QUERY setAccumEx()
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"@@intSetAccum": [
+      3,
+      2,
+      1,
+      11,
+      4
+    ]},
+    {"@@intSetAccum.contains(3)": true},
+    {"@@stringSetAccum": [
+      "World",
+      "There",
+      "Hello"
+    ]},
+    {"@@stringSetAccum.contains(Hello)": true},
+    {"@@stringSetAccum.size()": 3}
+  ]
+}

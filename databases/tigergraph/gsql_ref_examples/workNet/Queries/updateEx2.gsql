@@ -1,0 +1,12 @@
+# The second example is equivalent to the above updateEx
+CREATE QUERY updateEx2() FOR GRAPH workNet  {
+  S = {person.*};
+
+  X = SELECT s
+      FROM S:s
+      WHERE S.locationId == "USA"
+      POST-ACCUM S.locationId = "us",
+                 S.skillList = [3,2,1];
+
+  PRINT S;
+}

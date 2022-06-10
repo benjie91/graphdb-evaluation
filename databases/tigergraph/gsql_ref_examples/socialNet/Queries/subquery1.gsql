@@ -1,0 +1,15 @@
+CREATE QUERY subquery1 (VERTEX<person> m1) FOR GRAPH socialNet RETURNS(BagAccum<VERTEX<post>>)  
+{
+  Start = {m1};
+  L = SELECT t
+      FROM Start:s - (liked:e) - post:t;
+  RETURN L;
+}
+CREATE QUERY mainquery1 () FOR GRAPH socialNet  
+{
+  BagAccum<VERTEX<post>> @@testBag;
+  Start = {person.*};
+  Start = SELECT s FROM Start:s
+          ACCUM @@testBag += subquery1(s);
+  PRINT @@testBag;
+}

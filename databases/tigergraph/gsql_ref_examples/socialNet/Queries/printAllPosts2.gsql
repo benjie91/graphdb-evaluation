@@ -1,0 +1,52 @@
+# uses various SELECT statements (some of which are equivalent) to print out
+# either the posts made by the given user, the posts liked by the given
+# user, or the posts made or liked by the given user.
+CREATE QUERY printAllPosts2(vertex<person> seed) FOR GRAPH socialNet
+{
+    start = {seed}; # initialize starting set of vertices
+ 
+ 
+    # --- statements produce equivalent results
+    # select all 'post' vertices which can be reached from 'start' in one hop
+    #   using an edge of type 'liked'
+    allPostsLiked = SELECT targetVertex FROM start -(liked:e)-> post:targetVertex;
+  
+    # select all vertices of any type which can be reached from 'start' in one hop
+    #   using an edge of type 'liked'
+    allPostsLiked = SELECT targetVertex FROM start -(liked:e)-> :targetVertex;
+    # ----
+  
+  
+    # --- statements produce equivalent results
+    # start with the vertex set from above, and traverse all edges of type "posted"
+    #   (locally those edges are just given a name 'e' in case they need accessed)
+    #   and return all vertices of type 'post' which can be reached within one-hop of 'start' vertices
+    allPostsMade = SELECT targetVertex FROM start -(posted:e)-> post:targetVertex;
+  
+    # start with the vertex set from above, and traverse all edges of type "posted"
+    #   (locally those edges are just given a name 'e' in case they need accessed)
+    #   and return all vertices of any type which can be reached within one-hop of 'start' vertices
+    allPostsMade = SELECT targetVertex FROM start -(posted:e)-> :targetVertex;
+    # ----
+  
+  
+    # --- statements produce equivalent results
+    # select all vertices of type 'post' which can be reached from 'start' in one hop
+    #   using an edge of any type
+    # not equivalent to any statement. because it doesn't restrict the edge type,
+    #   this will include any vertex connected by 'liked' or 'posted' edge types
+    allPostsLikedOrMade = SELECT t FROM start -(:e)-> post:t;
+  
+    # select all vertices of type 'post' which can be reached from 'start' in one hop
+    #   using an edge of type either 'posted' or 'liked'
+    allPostsLikedOrMade = SELECT t FROM start -((posted|liked):e)-> post:t;
+  
+    # select all vertices of any type which can be reached from 'start' in one hop
+    #   using an edge of type either 'posted' or 'liked/
+    allPostsLikedOrMade = SELECT t FROM start -((posted|liked):e)-> :t;
+    # ----
+     
+    PRINT allPostsLiked;
+    PRINT allPostsMade;
+    PRINT allPostsLikedOrMade;
+}

@@ -1,0 +1,13 @@
+GSQL > RUN QUERY printOneVertex(("person1","person"),"person2")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{
+    "vp": "person2",
+    "va": "person1"
+  }]
+}

@@ -1,0 +1,15 @@
+CREATE QUERY evaluateEx (STRING whereCond = "TRUE", STRING postAccumIntExpr = "1") FOR GRAPH socialNet {
+  SetAccum<INT> @@timeSet;
+  MaxAccum<INT> @latestLikeTime, @latestLikePostTime;
+
+  S = {person.*};
+  S2 = SELECT s 
+       FROM S:s - (liked:e) -> post:t
+       WHERE evaluate(whereCond)
+       ACCUM s.@latestLikeTime += datetime_to_epoch( e.actionTime ),
+             s.@latestLikePostTime += datetime_to_epoch( t.postTime )
+       POST-ACCUM @@timeSet += evaluate(postAccumIntExpr, "int")
+       ;
+
+  PRINT @@timeSet;
+}

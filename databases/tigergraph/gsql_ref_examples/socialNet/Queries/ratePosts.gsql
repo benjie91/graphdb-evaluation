@@ -1,0 +1,18 @@
+# give each user post a rating based on the subject and how many likes it has
+CREATE QUERY ratePosts() FOR GRAPH socialNet api("v2") {      
+  SumAccum<INT> @rating = 0;
+  allPeople = {person.*};
+
+  results = SELECT v FROM allPeople -(:e)-> post:v
+    ACCUM CASE e.type
+      WHEN "posted" THEN
+        CASE
+          WHEN v.subject == "cats" THEN v.@rating += -1    # -1 if post about cats
+          WHEN v.subject == "Graphs" THEN v.@rating += 2   # +2 if post about graphs
+          WHEN v.subject == "tigergraph" THEN v.@rating += 10 # +10 if post about tigergraph
+          END
+      WHEN "liked" THEN v.@rating += 3                 # +3 each time post was liked
+      END;
+  #PRINT results.@rating; // api v1
+  PRINT results[results.@rating]; // api v2
+}

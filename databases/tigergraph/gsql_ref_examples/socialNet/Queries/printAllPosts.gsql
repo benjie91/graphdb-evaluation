@@ -1,0 +1,7 @@
+# Display all 'post'-type vertices
+CREATE QUERY printAllPosts() FOR GRAPH socialNet  
+{
+        start = {post.*};                # start is initialized with all vertices of type 'post'
+        results = SELECT s FROM start:s; # select these vertices
+        PRINT results;
+}

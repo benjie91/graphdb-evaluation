@@ -1,0 +1,1 @@
+RUN QUERY filterEx(["person1","person2"],2016)

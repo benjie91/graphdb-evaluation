@@ -1,0 +1,25 @@
+GSQL > RUN QUERY aggregateFuncEx([1,2,5])
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {
+      "sum(@@t)": -4,
+      "count(@@t)": 3,
+      "max(@@t)": 2,
+      "avg(@@t)": -1,
+      "min(@@t)": -5
+    },
+    {
+      "avg(x)": 2,
+      "count(x)": 3,
+      "max(x)": 5,
+      "min(x)": 1,
+      "sum(x)": 8
+    }
+  ]
+}

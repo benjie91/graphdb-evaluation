@@ -1,0 +1,58 @@
+GSQL > RUN QUERY compPathValid("c10","c12",true)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"Result": [{
+    "v_id": "c12",
+    "attributes": {"Result.@paths": ["c10~c11~c12"]},
+    "v_type": "computer"
+  }]}]
+}
+GSQL > RUN QUERY compPathValid("c1","c12",true)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"bad path: negative speed": "bad path: negative speed"}]
+}
+GSQL > RUN QUERY compPathValid("c24","c25",true)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"no path from source to target": "no path from source to target"}]
+}
+GSQL > RUN QUERY compPathValid("c24","c25",true)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"no path from source to target": "no path from source to target"}]
+}
+GSQL > RUN QUERY compPathValid("c24","c25",false)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"Result": [{
+    "v_id": "c25",
+    "attributes": {"Result.@paths": []},
+    "v_type": "computer"
+  }]}]
+}

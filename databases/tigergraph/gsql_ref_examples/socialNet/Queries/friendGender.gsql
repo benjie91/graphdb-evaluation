@@ -1,0 +1,24 @@
+#Show a summary of the number of friends all persons have by gender
+CREATE QUERY friendGender() FOR GRAPH socialNet {
+  ListAccum<STRING> @friendGender;
+  SumAccum<INT> @@maleGenderCount;
+  SumAccum<INT> @@femaleGenderCount;
+ 
+  start = {person.*};
+ 
+  # Record a list showing each friend's gender
+  socialMembers = SELECT s from start:s -(friend)-> :g
+              ACCUM s.@friendGender += (g.gender)
+ 
+              # Loop over each list of genders and total them
+              POST-ACCUM FOREACH x in s.@friendGender DO
+                           CASE WHEN (x == "Male") THEN
+                             @@maleGenderCount += 1
+                           ELSE
+                             @@femaleGenderCount += 1
+                           END
+                         END;
+ 
+  PRINT @@maleGenderCount;
+  PRINT @@femaleGenderCount;
+}

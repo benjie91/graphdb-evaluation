@@ -1,0 +1,25 @@
+# SumAccum Example
+CREATE QUERY sumAccumEx() FOR GRAPH minimalNet   {
+
+  SumAccum<INT>    @@intAccum;
+  SumAccum<FLOAT>  @@floatAccum;
+  SumAccum<DOUBLE> @@doubleAccum;
+  SumAccum<STRING> @@stringAccum;
+
+  @@intAccum  = 1;
+  @@intAccum += 1;
+
+  @@floatAccum = @@intAccum;
+  @@floatAccum = @@floatAccum / 3;
+
+  @@doubleAccum  = @@floatAccum * 8;
+  @@doubleAccum += -1;
+
+  @@stringAccum  = "Hello ";
+  @@stringAccum += "World";
+
+  PRINT @@intAccum;
+  PRINT @@floatAccum;
+  PRINT @@doubleAccum;
+  PRINT @@stringAccum;
+}

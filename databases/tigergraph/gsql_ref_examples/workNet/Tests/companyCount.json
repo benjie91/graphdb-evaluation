@@ -1,0 +1,20 @@
+GSQL > RUN QUERY companyCount("us")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"countryCount": 2}]
+}
+GSQL > RUN QUERY companyCount("can")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"countryCount": 1}]
+}

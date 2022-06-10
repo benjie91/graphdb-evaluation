@@ -1,0 +1,137 @@
+GSQL > RUN QUERY printExampleV2("person1")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {
+      "AsizeMoreThan10": false,
+      "Letters": "ABCXYZ",
+      "PaperSize": 93.5
+    },
+    {"A.size()>10": false},
+    {
+      "v": "person1",
+      "@@setOfVertices": [
+        "person5",
+        "person4",
+        "person2"
+      ]
+    },
+    {"@@testMap": {
+      "person4": ["3"],
+      "person3": ["2"],
+      "person2": ["1"],
+      "person1": ["0"],
+      "person8": [
+        "8",
+        "7"
+      ],
+      "person7": [
+        "6",
+        "9"
+      ],
+      "person6": [
+        "5",
+        "10"
+      ],
+      "person5": [
+        "4",
+        "11"
+      ]
+    }},
+    {"VSetVarWomen": [
+      {
+        "v_id": "person5",
+        "attributes": {
+          "gender": "Female",
+          "id": "person5",
+          "@postedSet": [
+            {
+              "from_type": "person",
+              "to_type": "post",
+              "directed": true,
+              "from_id": "person5",
+              "to_id": "4",
+              "attributes": {},
+              "e_type": "posted"
+            },
+            {
+              "from_type": "person",
+              "to_type": "post",
+              "directed": true,
+              "from_id": "person5",
+              "to_id": "11",
+              "attributes": {},
+              "e_type": "posted"
+            }
+          ]
+        },
+        "v_type": "person"
+      },
+      {
+        "v_id": "person4",
+        "attributes": {
+          "gender": "Female",
+          "id": "person4",
+          "@postedSet": [{
+            "from_type": "person",
+            "to_type": "post",
+            "directed": true,
+            "from_id": "person4",
+            "to_id": "3",
+            "attributes": {},
+            "e_type": "posted"
+          }]
+        },
+        "v_type": "person"
+      },
+      {
+        "v_id": "person2",
+        "attributes": {
+          "gender": "Female",
+          "id": "person2",
+          "@postedSet": [{
+            "from_type": "person",
+            "to_type": "post",
+            "directed": true,
+            "from_id": "person2",
+            "to_id": "1",
+            "attributes": {},
+            "e_type": "posted"
+          }]
+        },
+        "v_type": "person"
+      }
+    ]},
+    {"VSetExpr": [
+      {
+        "v_id": "person5",
+        "attributes": {
+          "A.@postedSet.size()": 2,
+          "A.gender": "Female"
+        },
+        "v_type": "person"
+      },
+      {
+        "v_id": "person4",
+        "attributes": {
+          "A.@postedSet.size()": 1,
+          "A.gender": "Female"
+        },
+        "v_type": "person"
+      },
+      {
+        "v_id": "person2",
+        "attributes": {
+          "A.@postedSet.size()": 1,
+          "A.gender": "Female"
+        },
+        "v_type": "person"
+      }
+    ]}
+  ]
+}

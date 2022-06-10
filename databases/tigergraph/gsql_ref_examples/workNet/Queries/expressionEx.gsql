@@ -1,0 +1,89 @@
+#Show various types of expressions
+CREATE QUERY expressionEx() FOR GRAPH workNet {
+  TYPEDEF tuple<STRING countryName, STRING companyName> companyInfo;
+
+  ListAccum<STRING> @companyNames;
+  SumAccum<INT> @companyCount;
+  SumAccum<INT> @numberOfRelationships;
+  ListAccum<companyInfo> @info;
+  MapAccum< STRING,ListAccum<STRING> > @@companyEmployeeRelationships;
+  SumAccum<INT> @@totalRelationshipCount;
+
+  ListAccum<INT> @@valueList;
+  SetAccum<INT> @@valueSet;
+
+  SumAccum<INT> @@a;
+  SumAccum<INT> @@b;
+
+  #expr := constant
+  @@a = 10;
+
+  #expr := ["@@"] name
+  @@b = @@a;
+
+  #expr := expr mathOperator expr
+  @@b = @@a + 5;
+
+  #expr := "(" expr ")"
+  @@b = (@@a + 5);
+
+  #expr := "-" expr
+  @@b = -(@@a + 5);
+
+  PRINT @@a, @@b;
+
+  #expr := "[" argList "]"   // a list
+  @@valueList = [1,2,3,4,5];
+  @@valueList += [24,80];
+
+  #expr := "(" argList ")"  // setBagExpr
+  @@valueSet += (1,2,3,4,5);
+
+  #expr := ( COUNT | ISEMPTY | MAX | MIN | AVG | SUM ) "(" setBagExpr ")"
+  PRINT MAX(@@valueList);
+  PRINT AVG(@@valueList);
+
+  seed = {ANY};
+
+  company1 = SELECT t FROM seed:s -(worksFor)-> :t WHERE (s.id == "company1");
+  company2 = SELECT t FROM seed:s -(worksFor)-> :t WHERE (s.id == "company2");
+
+  #expr := setBagExpr
+  worksForBoth = company1 INTERSECT company2;
+  PRINT worksForBoth;
+
+  #expr := name "." "type"
+  employees = SELECT s FROM seed:s WHERE (s.type == "person");
+
+  employees = SELECT s FROM employees:s -(worksFor)-> :t
+
+    ACCUM
+      #expr := name "." ["@"] name
+      s.@companyNames += t.id,
+
+      #expr := name "." name "(" [argList] ")" [ "." FILTER "(" condition ")" ]
+      s.@numberOfRelationships += s.outdegree(),
+
+      #expr := name ["<" type ["," type"]* ">"] "(" [argList] ")"
+      s.@info += companyInfo(t.country, t.id)
+
+   POST-ACCUM
+     #expr := name "." "@" name ("." name "(" [argList] ")")+ ["." name]
+     s.@companyCount += s.@companyNames.size(),
+
+    #expr := name "." "@" name ["\'"]
+    @@totalRelationshipCount += s.@companyCount,
+
+  FOREACH comp IN s.@companyNames DO
+     #expr := "(" argList "->" argList ")"
+     @@companyEmployeeRelationships += (s.id -> comp)
+  END;
+
+  PRINT employees;
+  PRINT @@totalRelationshipCount;
+  PRINT @@companyEmployeeRelationships;
+
+  #expr := "@@" name ("." name "(" [argList] ")")+ ["." name]
+  PRINT @@companyEmployeeRelationships.size();
+}
+

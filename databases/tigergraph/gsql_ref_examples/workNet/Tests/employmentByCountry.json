@@ -1,0 +1,31 @@
+GSQL > RUN QUERY employmentByCountry("us")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"val.size()": 5},
+    {"employee": "person7"},
+    {"employee": "person1"},
+    {"employee": "person4"},
+    {"employee": "person9"},
+    {"employee": "person10"}
+  ]
+}
+GSQL > RUN QUERY employmentByCountry("can")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"val.size()": 2},
+    {"employee": "person5"},
+    {"employee": "person11"}
+  ]
+}

@@ -1,0 +1,1 @@
+RUN QUERY printExampleV2("person1")

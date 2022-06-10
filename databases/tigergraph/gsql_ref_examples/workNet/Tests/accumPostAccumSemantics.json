@@ -1,0 +1,19 @@
+GSQL > RUN QUERY accumPostAccumSemantics()
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"@@vertexOnlyAccum": 5},
+    {"@@vertexOnlyPostAccum": 5},
+    {"@@vertexOnlyWhereAccum": 2},
+    {"@@vertexOnlyWherePostAccum": 2},
+    {"@@sourceWithEdgeAccum": 17},
+    {"@@sourceWithEdgePostAccum": 5},
+    {"@@targetWithEdgeAccum": 17},
+    {"@@targetWithEdgePostAccum": 12}
+  ]
+}

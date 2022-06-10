@@ -1,0 +1,6 @@
+CREATE QUERY aggregateFuncEx(BAG<INT> x) FOR GRAPH minimalNet   {
+  BagAccum<INT> @@t;
+  @@t += -5; @@t += 2; @@t+= -1;
+  PRINT max(@@t), min(@@t), avg(@@t), count(@@t), sum(@@t);
+  PRINT max(x), min(x), avg(x), count(x), sum(x);
+}

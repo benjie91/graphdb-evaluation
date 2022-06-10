@@ -1,0 +1,16 @@
+CREATE QUERY multipleEdgeTypeCheckEx2(vertex<person> m1) FOR GRAPH socialNet {
+  ListAccum<STRING> @@testList1;
+  allUser = {m1};
+  allUser = SELECT s
+            FROM allUser:s - ((posted|liked|friend):e) -> (post|person):t
+            ACCUM CASE
+                    WHEN e.type == "liked" THEN    # for liked edges
+                      @@testList1 += to_string(datetime_to_epoch(e.actionTime))
+                    WHEN e.type == "friend" THEN   # for friend edges
+                      @@testList1 += t.gender
+                    ELSE      # For the remained edge type, which is posted edges
+                      @@testList1 += to_string(datetime_to_epoch(t.postTime))
+                  END
+            ;
+  PRINT @@testList1;
+}

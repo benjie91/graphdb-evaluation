@@ -1,0 +1,41 @@
+DROP ALL
+CREATE VERTEX person(PRIMARY_ID personId UINT, latitude STRING, longitude STRING) WITH primary_id_as_attribute="true"
+CREATE UNDIRECTED EDGE friend(FROM person, TO person)
+
+CREATE VERTEX venue(PRIMARY_ID venueId UINT, latitude STRING, longitude STRING) WITH primary_id_as_attribute="true"
+CREATE DIRECTED EDGE rated(FROM person, TO venue, rating STRING)
+CREATE DIRECTED EDGE checkin(FROM person, TO venue, checkinId UINT, latitude STRING, longitude STRING, createdAt DATETIME)
+
+CREATE GRAPH foursquare(*)
+
+USE GRAPH foursquare
+CREATE LOADING JOB loadUser for GRAPH foursquare {
+    DEFINE FILENAME f;
+    LOAD f TO VERTEX person VALUES (gsql_to_uint($0), gsql_trim($1), gsql_trim($2)) USING SEPARATOR="|" ;
+}
+
+CREATE LOADING JOB loadVenue for GRAPH foursquare {
+    DEFINE FILENAME f;
+    LOAD f TO VERTEX venue VALUES (gsql_to_uint($0), gsql_trim($1), gsql_trim($2)) USING SEPARATOR="|" ;
+}
+
+CREATE LOADING JOB loadFriend for GRAPH foursquare {
+    DEFINE FILENAME f;
+    LOAD f TO EDGE friend VALUES (gsql_to_uint($0), gsql_to_uint($1)) USING SEPARATOR="|" ;
+}
+
+CREATE LOADING JOB loadRated for GRAPH foursquare {
+    DEFINE FILENAME f;
+    LOAD f to EDGE rated VALUES (gsql_to_uint($0), gsql_to_uint($1), gsql_trim($2)) USING SEPARATOR="|" ;
+}
+
+CREATE LOADING JOB loadCheckin for GRAPH foursquare {
+    DEFINE FILENAME f;
+    LOAD f to EDGE checkin VALUES (gsql_to_uint($1), gsql_to_uint($2), gsql_to_uint($0), gsql_trim($3), gsql_trim($4), $5) USING SEPARATOR="|" ;
+}
+
+RUN LOADING JOB loadUser USING f="./dataset/users.dat"
+RUN LOADING JOB loadVenue USING f="./dataset/venues.dat"
+RUN LOADING JOB loadFriend USING f="./dataset/socialgraph.dat"
+RUN LOADING JOB loadRated USING f="./dataset/ratings.dat"
+RUN LOADING JOB loadCheckin USING f="./dataset/checkins.dat"

@@ -1,0 +1,15 @@
+# count the number of friends a person has, and optionally include coworkers in that count
+CREATE QUERY countFriendsOf2(vertex<person> seed, BOOL includeCoworkers) FOR GRAPH friendNet
+{
+       SumAccum<INT> @@numFriends = 0;
+       start = {seed};
+
+       IF includeCoworkers THEN
+          friends = SELECT v FROM start -((friend | coworker):e)-> :v
+                ACCUM @@numFriends +=1;
+       ELSE 
+          friends = SELECT v FROM start -(friend:e)-> :v
+                ACCUM @@numFriends +=1;
+       END;
+       PRINT @@numFriends, includeCoworkers;
+}

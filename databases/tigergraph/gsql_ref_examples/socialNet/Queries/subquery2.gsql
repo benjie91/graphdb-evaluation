@@ -1,0 +1,19 @@
+CREATE QUERY subquery2 (VERTEX<person> m1) FOR GRAPH socialNet RETURNS(INT)  
+{
+  int x;
+  Start = {m1};
+  Start = SELECT t FROM Start:t
+          ACCUM CASE WHEN t.gender == "Male" THEN x = 5
+                     WHEN t.gender == "Female" THEN x = 10
+                     ELSE x = -1
+                END;
+  RETURN x;
+}
+CREATE QUERY mainquery2 (SET<VERTEX<person>> m1) FOR GRAPH socialNet  
+{
+  SumAccum<INT> @@sum1;
+  Start = {m1};
+  Start = SELECT t FROM Start:t
+          ACCUM @@sum1 += subquery2(t);
+  PRINT @@sum1;
+}

@@ -1,0 +1,1 @@
+RUN QUERY loadAccumEx("/home/tigergraph/tigergraph/document/examples/gsql_ref/data/loadAccumInput.csv")

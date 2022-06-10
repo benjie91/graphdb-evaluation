@@ -1,0 +1,1 @@
+RUN QUERY findEnoughFriends("person1")

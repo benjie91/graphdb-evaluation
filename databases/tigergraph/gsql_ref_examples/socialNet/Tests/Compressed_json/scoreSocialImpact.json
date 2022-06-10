@@ -1,0 +1,50 @@
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"people": [
+    {
+      "v_id": "person7",
+      "attributes": {"people.@socialImpact": 2},
+      "v_type": "person"
+    },
+    {
+      "v_id": "person5",
+      "attributes": {"people.@socialImpact": 2},
+      "v_type": "person"
+    },
+    {
+      "v_id": "person1",
+      "attributes": {"people.@socialImpact": 1},
+      "v_type": "person"
+    },
+    {
+      "v_id": "person4",
+      "attributes": {"people.@socialImpact": 2},
+      "v_type": "person"
+    },
+    {
+      "v_id": "person2",
+      "attributes": {"people.@socialImpact": 1},
+      "v_type": "person"
+    },
+    {
+      "v_id": "person3",
+      "attributes": {"people.@socialImpact": 1},
+      "v_type": "person"
+    },
+    {
+      "v_id": "person8",
+      "attributes": {"people.@socialImpact": 3},
+      "v_type": "person"
+    },
+    {
+      "v_id": "person6",
+      "attributes": {"people.@socialImpact": 2},
+      "v_type": "person"
+    }
+  ]}]
+}

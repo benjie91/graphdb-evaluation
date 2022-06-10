@@ -1,0 +1,30 @@
+USE GRAPH socialNet
+
+CREATE ONLINE_POST JOB loadMember FOR GRAPH socialNet {
+  LOAD TO VERTEX person VALUES($0, $0, $1) ;
+}
+
+CREATE ONLINE_POST JOB loadFriend FOR GRAPH socialNet {
+  LOAD TO EDGE friend VALUES($0, $1) ;
+}
+
+CREATE ONLINE_POST JOB loadPost FOR GRAPH socialNet {
+  LOAD TO VERTEX post VALUES($0, $1, $2);
+}
+
+CREATE ONLINE_POST JOB loadPosted FOR GRAPH socialNet {
+  LOAD TO EDGE posted VALUES($0, $1) ;
+}
+
+CREATE ONLINE_POST JOB loadLiked FOR GRAPH socialNet {
+  LOAD TO EDGE liked VALUES($0, $1, $2) ;
+}
+
+ 
+ 
+RUN JOB loadMember USING FILENAME="./persons", SEPARATOR=",", EOL="\n"
+RUN JOB loadFriend USING FILENAME="./friends", SEPARATOR=",", EOL="\n"
+RUN JOB loadPost USING FILENAME="./posts", SEPARATOR=",", EOL="\n"
+RUN JOB loadPosted USING FILENAME="./posted", SEPARATOR=",", EOL="\n"
+RUN JOB loadLiked USING FILENAME="./liked", SEPARATOR=",", EOL="\n"
+

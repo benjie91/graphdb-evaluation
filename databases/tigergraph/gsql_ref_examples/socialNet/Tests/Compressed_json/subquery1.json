@@ -1,0 +1,9 @@
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"@@testBag": [ "8", "6", "3", "4", "4", "0", "0", "0", "10" ]}]
+}

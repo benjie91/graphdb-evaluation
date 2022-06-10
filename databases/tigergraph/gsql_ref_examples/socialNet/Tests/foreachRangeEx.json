@@ -1,0 +1,20 @@
+GSQL > RUN QUERY foreachRangeEx()
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"@@t": [
+    0,
+    0,
+    1,
+    0,
+    1,
+    2,
+    0,
+    1,
+    2
+  ]}]
+}

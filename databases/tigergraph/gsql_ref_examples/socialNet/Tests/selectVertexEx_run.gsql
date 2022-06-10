@@ -1,0 +1,1 @@
+RUN QUERY selectVertexEx("/home/tigergraph/tigergraph/document/examples/gsql_ref/data/selectVertexInput.csv")

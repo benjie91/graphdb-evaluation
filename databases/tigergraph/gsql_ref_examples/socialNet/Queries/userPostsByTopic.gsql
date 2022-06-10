@@ -1,0 +1,11 @@
+# Show number of total posts by topic
+CREATE QUERY userPostsByTopic() FOR GRAPH socialNet {
+  MapAccum<STRING, INT> @@postTopicCounts;
+  start = {person.*};
+ 
+  # Append subject and update the appearance count in the global map accum
+  posts = SELECT g FROM start -(posted)-> :g
+          ACCUM @@postTopicCounts += (g.subject -> 1);
+ 
+  PRINT @@postTopicCounts;
+}

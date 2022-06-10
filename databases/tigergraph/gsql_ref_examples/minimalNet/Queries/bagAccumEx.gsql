@@ -1,0 +1,29 @@
+# BagAccum Example
+CREATE QUERY bagAccumEx() FOR GRAPH minimalNet   {
+
+  #Unordered collection
+  BagAccum<INT>    @@intBagAccum;
+  BagAccum<STRING> @@stringBagAccum;
+
+  @@intBagAccum += 5;
+  @@intBagAccum.clear();
+
+  @@intBagAccum += 4;
+  @@intBagAccum += 11;
+  @@intBagAccum += 1;
+  @@intBagAccum += 11;        #Bag accums can store duplicates
+  @@intBagAccum += (1,2,3,4);
+  PRINT @@intBagAccum;
+
+  PRINT @@intBagAccum.size();
+  PRINT @@intBagAccum.contains(4);
+
+  @@stringBagAccum += "Hello";
+  @@stringBagAccum += "Hello";
+  @@stringBagAccum += "There";
+  @@stringBagAccum += "World";
+  PRINT @@stringBagAccum.contains("Hello");
+  @@stringBagAccum.remove("Hello");    #Remove one matching element
+  @@stringBagAccum.removeAll("There"); #Remove all matching elements
+  PRINT @@stringBagAccum;
+}

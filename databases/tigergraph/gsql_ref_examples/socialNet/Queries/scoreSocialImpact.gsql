@@ -1,0 +1,13 @@
+# give each social network user a social impact score which accumulates
+# based on how many friends and posts they have
+CREATE QUERY scoreSocialImpact() FOR GRAPH socialNet api("v2") {
+       SumAccum<INT> @socialImpact = 0;
+       allPeople = {person.*};
+       people = SELECT v FROM allPeople:v
+              ACCUM CASE WHEN v.outdegree("friend") > 1 THEN v.@socialImpact +=1 END, # +1 point for having > 1 friend
+                    CASE WHEN v.outdegree("friend") > 2 THEN v.@socialImpact +=1 END, # +1 point for having > 2 friends
+                    CASE WHEN v.outdegree("posted") > 1 THEN v.@socialImpact +=1 END, # +1 point for having > 1 posts
+                    CASE WHEN v.outdegree("posted") > 3 THEN v.@socialImpact +=2 END; # +2 points for having > 2 posts
+       #PRINT people.@socialImpact;       // api v1
+       PRINT people[people.@socialImpact]; // api v2
+}

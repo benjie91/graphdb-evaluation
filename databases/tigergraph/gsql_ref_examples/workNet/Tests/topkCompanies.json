@@ -1,0 +1,27 @@
+GSQL > RUN QUERY topkCompanies("person1", 2)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"@@companyList": [
+    "company2",
+    "company1"
+  ]}]
+}
+GSQL > RUN QUERY topkCompanies("person2", 3)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"@@companyList": [
+    "company3",
+    "company2",
+    "company1"
+  ]}]
+}

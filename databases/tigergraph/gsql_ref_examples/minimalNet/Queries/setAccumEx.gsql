@@ -1,0 +1,28 @@
+# SetAccum Example
+CREATE QUERY setAccumEx() FOR GRAPH minimalNet   {
+
+  SetAccum<INT> @@intSetAccum;
+  SetAccum<STRING> @@stringSetAccum;
+
+  @@intSetAccum += 5;
+  @@intSetAccum.clear();
+
+  @@intSetAccum += 4;
+  @@intSetAccum += 11;
+  @@intSetAccum += 1;
+  @@intSetAccum += 11; # Sets do not store duplicates
+
+  @@intSetAccum += (1,2,3,4); # Can create simple sets this way
+  PRINT @@intSetAccum;
+
+  PRINT @@intSetAccum.contains(3);
+
+  @@stringSetAccum += "Hello";
+  @@stringSetAccum += "Hello";
+  @@stringSetAccum += "There";
+  @@stringSetAccum += "World";
+  PRINT @@stringSetAccum;
+
+  PRINT @@stringSetAccum.contains("Hello");
+  PRINT @@stringSetAccum.size();
+}

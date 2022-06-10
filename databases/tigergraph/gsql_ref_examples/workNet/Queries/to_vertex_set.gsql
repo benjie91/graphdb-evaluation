@@ -1,0 +1,25 @@
+CREATE QUERY to_vertex_set (SET<STRING> uids, STRING uid, STRING vtype) FOR GRAPH workNet {
+  SetAccum<VERTEX> @@v2, @@v3;
+  SetAccum<STRING> @@strSet;
+  VERTEX v;
+ 
+  v = to_vertex (uid, vtype);			# to_vertex assigned to a vertex variable
+  PRINT v;								# vertex variable -> only vertex id is printed
+ 
+  @@v2 += to_vertex (uid, vtype);	# to_vertex accumulated to a SetAccum<VERTEX>
+  PRINT @@v2;							# SetAccum of vertex -> only vertex ids are printed
+
+  S2 = to_vertex_set (uids, vtype); # to_vertex_set assigned to a vertex set variable
+  PRINT S2;								# vertex set variable-> full details printed
+  
+  @@strSet = uids;						# Show SET<STRING> & SetAccumm<STRING> are the same
+  S3 = to_vertex_set(@@strSet, vtype); # Input to to_vertex_set is SetAccum<STRING>
+  SDIFF = S2 MINUS S3;					# Now S2 = S3, so SDIFF2 is empty
+  PRINT  SDIFF.size();
+	
+  #FOREACH vid in uids DO    # In this case non-existing ids in uids causes run-time error
+  #  @@v3 += to_vertex( vid, vtype );
+  #END;
+  #L3 = @@v3;
+  #PRINT L3;
+}

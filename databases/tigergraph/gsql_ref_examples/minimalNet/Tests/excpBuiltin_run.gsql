@@ -1,0 +1,3 @@
+RUN QUERY excpBuiltin(7)
+RUN QUERY excpBuiltin("a")
+RUN QUERY excpBuiltin(0)

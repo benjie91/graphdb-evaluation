@@ -1,0 +1,1 @@
+RUN QUERY listAccumUpdateEx2(["person1","person5"])

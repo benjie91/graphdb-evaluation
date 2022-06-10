@@ -1,0 +1,1 @@
+RUN QUERY printOneVertex(("person1","person"),"person2")

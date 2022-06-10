@@ -1,0 +1,18 @@
+# Count the number of companies whose country matches the provided string
+CREATE QUERY companyCount(STRING countryName) FOR GRAPH workNet {
+  ListAccum<STRING> @@companyList;
+  INT countryCount;
+  start = {ANY};                        # start will have a set of all vertex types
+
+  s = SELECT v FROM start:v             # get all vertices
+      WHERE v.type == "company"         # that have a type of "company"
+      ACCUM @@companyList += v.country; # append the country attribute from all company vertices to the ListAccum
+
+  # Iterate the ListAccum and compare each element to the countryName parameter
+  FOREACH item in @@companyList DO
+    IF item == countryName THEN
+       countryCount = countryCount + 1;
+    END;
+  END;
+  PRINT countryCount;
+}

@@ -1,0 +1,22 @@
+CREATE QUERY printExample() FOR GRAPH socialNet {
+  SetAccum<VERTEX> @@testSet, @@testSet2;
+  ListAccum<STRING> @@strList;
+  int x = 3;
+ 
+  Seed = person.*;
+  A = SELECT s
+      FROM Seed:s
+      WHERE s.gender == "Female"
+      ACCUM @@testSet += s, @@strList += s.gender;
+  A = SELECT s
+      FROM Seed:s
+      WHERE s.gender == "Male"
+      ACCUM @@testSet2 += s;
+ 
+  PRINT @@testSet, @@testSet2 TO_CSV "test.txt";  # test.txt format is 1 3 4 ,0 5 2 6 7
+   # Each vertex is represented by internal ID values.
+  PRINT x WHERE x < 0 TO_CSV "test2.txt";   # test2.txt is empty
+  PRINT x WHERE x > 0 TO_CSV "test3.txt";   # test3.txt is 3
+  PRINT @@strList TO_CSV "test4.txt";   # test4.txt is Female Female Female
+  PRINT A[A.gender] TO_CSV "test5";  # test5/output.txt is Male Male Male Male Male
+}

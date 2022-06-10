@@ -1,0 +1,2 @@
+RUN QUERY to_vertex_set(["person1","personx","person2"], "person3", "person")
+RUN QUERY to_vertex_set(["person1","personx"], "person1", "abc")

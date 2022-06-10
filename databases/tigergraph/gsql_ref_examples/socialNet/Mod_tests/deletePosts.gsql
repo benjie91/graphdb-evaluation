@@ -1,0 +1,23 @@
+# Remove any post vertices posted by the given user
+CREATE QUERY deletePosts(vertex<person> seed) FOR GRAPH socialNet {
+    start = {seed};
+ 
+    # Best practice is to delete a vertex in a POST-ACCUM, which only
+    # occurs once for each vertex v, guaranteeing that a vertex is not
+    # deleted more than once
+    postAccumDeletedPosts = SELECT v FROM start -(posted:e)-> post:v
+             POST-ACCUM DELETE (v);
+     
+    # Possible, but not recommended as the DML-sub DELETE statement occurs
+    # once for each edge of the vertex v
+    accumDeletedPosts = SELECT v FROM start -(posted:e)-> post:v
+             ACCUM DELETE (v);
+}
+ 
+# Need a separate query to display the results, because deletions don't take effect during the query.
+CREATE QUERY selectUserPosts(vertex<person> seed) FOR GRAPH socialNet {
+    start = {seed};
+ 
+    userPosts = SELECT v FROM start -(posted:e)-> post:v;
+    PRINT userPosts;
+}

@@ -1,0 +1,39 @@
+# 1 May 2018 - Merge into 3 loading jobs. Switch to v2.0 loading syntax.
+# define the loading jobs
+CREATE LOADING JOB load_book_rating FOR GRAPH Book_rating {
+	DEFINE FILENAME userDat = "./data/user.dat";
+	DEFINE FILENAME bookDat = "./data/book.dat";
+	DEFINE FILENAME genreDat = "./data/genre.dat";
+	DEFINE FILENAME occupDat = "./data/occupation.dat";
+    DEFINE FILENAME ratingDat = "./data/user_book_rating.dat";
+    DEFINE FILENAME bookGenreDat = "./data/book_genre.dat";
+    DEFINE FILENAME friendDat = "./data/friend_of.dat";
+    DEFINE FILENAME readDat = "./data/user_book_read.dat";
+    DEFINE FILENAME sequelDat = "./data/sequel_of.dat";
+    DEFINE FILENAME userOccupDat = "./data/user_occupation.dat";
+    DEFINE FILENAME userOccupUpdate = "./data/user_occupation_update.dat";
+
+	LOAD userDat TO VERTEX User VALUES ($0,$1,$2,$3,$4);
+	LOAD bookDat TO VERTEX Book VALUES ($0,$1,$2);
+	LOAD genreDat TO VERTEX Genre VALUES ($0,$1);
+	LOAD occupDat TO VERTEX Occupation VALUES ($0,$1);
+  
+	LOAD ratingDat TO EDGE user_book_rating VALUES ($0,$1,$2,$3);
+	LOAD bookGenreDat
+    	TO TEMP_TABLE t1 (id,genrecode) VALUES($0, flatten($1,"|",1));
+	LOAD TEMP_TABLE t1 TO EDGE book_genre VALUES ($0, $1);
+	LOAD userOccupDat TO EDGE user_occupation VALUES ($0,$1);
+	
+	LOAD friendDat TO EDGE friend_of VALUES ($0,$1,$2);
+	LOAD readDat TO EDGE user_book_read VALUES ($0,$1,$2);
+	LOAD sequelDat TO EDGE sequel_of VALUES ($0,$1);
+}
+
+CREATE LOADING JOB clean_rating FOR GRAPH Book_rating {
+    DEFINE FILENAME ratingDat = "./data/user_book_rating.dat";
+	DELETE EDGE user_book_rating (FROM $0, TO $1) FROM ratingDat;
+}
+
+# load the data
+RUN LOADING JOB load_book_rating
+RUN LOADING JOB load_book_rating USING userOccupDat="./data/user_occupation_update.dat"

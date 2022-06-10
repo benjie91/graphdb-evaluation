@@ -1,0 +1,227 @@
+GSQL > RUN QUERY employeesByCompany("us")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"employees": [
+      {
+        "v_id": "person7",
+        "attributes": {
+          "interestList": [
+            "art",
+            "sport"
+          ],
+          "skillSet": [
+            6,
+            8
+          ],
+          "skillList": [
+            8,
+            6
+          ],
+          "locationId": "us",
+          "interestSet": [
+            "sport",
+            "art"
+          ],
+          "id": "person7"
+        },
+        "v_type": "person"
+      },
+      {
+        "v_id": "person1",
+        "attributes": {
+          "interestList": [
+            "management",
+            "financial"
+          ],
+          "skillSet": [
+            3,
+            2,
+            1
+          ],
+          "skillList": [
+            1,
+            2,
+            3
+          ],
+          "locationId": "us",
+          "interestSet": [
+            "financial",
+            "management"
+          ],
+          "id": "person1"
+        },
+        "v_type": "person"
+      },
+      {
+        "v_id": "person4",
+        "attributes": {
+          "interestList": ["football"],
+          "skillSet": [
+            10,
+            1,
+            4
+          ],
+          "skillList": [
+            4,
+            1,
+            10
+          ],
+          "locationId": "us",
+          "interestSet": ["football"],
+          "id": "person4"
+        },
+        "v_type": "person"
+      },
+      {
+        "v_id": "person9",
+        "attributes": {
+          "interestList": [
+            "financial",
+            "teaching"
+          ],
+          "skillSet": [
+            2,
+            7,
+            4
+          ],
+          "skillList": [
+            4,
+            7,
+            2
+          ],
+          "locationId": "us",
+          "interestSet": [
+            "teaching",
+            "financial"
+          ],
+          "id": "person9"
+        },
+        "v_type": "person"
+      }
+    ]},
+    {"employees": []},
+    {"employees": [
+      {
+        "v_id": "person7",
+        "attributes": {
+          "interestList": [
+            "art",
+            "sport"
+          ],
+          "skillSet": [
+            6,
+            8
+          ],
+          "skillList": [
+            8,
+            6
+          ],
+          "locationId": "us",
+          "interestSet": [
+            "sport",
+            "art"
+          ],
+          "id": "person7"
+        },
+        "v_type": "person"
+      },
+      {
+        "v_id": "person9",
+        "attributes": {
+          "interestList": [
+            "financial",
+            "teaching"
+          ],
+          "skillSet": [
+            2,
+            7,
+            4
+          ],
+          "skillList": [
+            4,
+            7,
+            2
+          ],
+          "locationId": "us",
+          "interestSet": [
+            "teaching",
+            "financial"
+          ],
+          "id": "person9"
+        },
+        "v_type": "person"
+      },
+      {
+        "v_id": "person10",
+        "attributes": {
+          "interestList": [
+            "football",
+            "sport"
+          ],
+          "skillSet": [3],
+          "skillList": [3],
+          "locationId": "us",
+          "interestSet": [
+            "sport",
+            "football"
+          ],
+          "id": "person10"
+        },
+        "v_type": "person"
+      }
+    ]},
+    {"employees": [
+      {
+        "v_id": "person1",
+        "attributes": {
+          "interestList": [
+            "management",
+            "financial"
+          ],
+          "skillSet": [
+            3,
+            2,
+            1
+          ],
+          "skillList": [
+            1,
+            2,
+            3
+          ],
+          "locationId": "us",
+          "interestSet": [
+            "financial",
+            "management"
+          ],
+          "id": "person1"
+        },
+        "v_type": "person"
+      },
+      {
+        "v_id": "person10",
+        "attributes": {
+          "interestList": [
+            "football",
+            "sport"
+          ],
+          "skillSet": [3],
+          "skillList": [3],
+          "locationId": "us",
+          "interestSet": [
+            "sport",
+            "football"
+          ],
+          "id": "person10"
+        },
+        "v_type": "person"
+      }
+    ]},
+    {"employees": []}
+  ]
+}

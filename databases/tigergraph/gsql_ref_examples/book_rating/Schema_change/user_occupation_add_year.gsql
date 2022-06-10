@@ -1,0 +1,5 @@
+#CREATE SCHEMA_CHANGE JOB user_occupation_add_year FOR GRAPH Book_rating { // pre-v1.2
+CREATE GLOBAL SCHEMA_CHANGE JOB user_occupation_add_year {                // v1.2+
+    ALTER EDGE user_occupation ADD ATTRIBUTE (year INT);
+}
+RUN JOB user_occupation_add_year

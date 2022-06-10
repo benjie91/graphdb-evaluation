@@ -1,0 +1,4 @@
+$ gsql 'RUN QUERY listCompanyNames("jp")'
+Semantic Check Fails: the query listCompanyNames doesn't exist!
+$ gsql 'RUN QUERY addNewChildCompany("company4")'
+Semantic Check Fails: the query addNewChildCompany doesn't exist!

@@ -1,0 +1,6 @@
+CREATE QUERY selectVertexEx(STRING filename) FOR GRAPH socialNet {
+  S = {SelectVertex(filename, $"c1", $1, ",", true), 
+       SelectVertex(filename, $2, post, ",", true)
+  };
+  PRINT S;
+}

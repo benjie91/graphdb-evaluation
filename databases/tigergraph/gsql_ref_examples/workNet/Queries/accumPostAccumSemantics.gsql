@@ -1,0 +1,63 @@
+#Show Accum PostAccum Behavior
+CREATE QUERY accumPostAccumSemantics() FOR GRAPH workNet   {
+
+  SumAccum<INT> @@vertexOnlyAccum;
+  SumAccum<INT> @@vertexOnlyPostAccum;
+
+  SumAccum<INT> @@vertexOnlyWhereAccum;
+  SumAccum<INT> @@vertexOnlyWherePostAccum;
+
+  SumAccum<INT> @@sourceWithEdgeAccum;
+  SumAccum<INT> @@sourceWithEdgePostAccum;
+
+  SumAccum<INT> @@targetWithEdgeAccum;
+  SumAccum<INT> @@targetWithEdgePostAccum;
+
+  #Seed start set with all company vertices
+  start = {company.*};
+
+  #Select all vertices in source set start
+  selectVertexSet = SELECT v from start:v
+                    #Happens once for each vertex discovered
+                    ACCUM @@vertexOnlyAccum += 1
+
+                    #Happens once for each vertex in the result set "v"
+                    POST-ACCUM @@vertexOnlyPostAccum += 1;
+
+  #Select all vertices in source set start with a where constraint
+  selectVertexSetWhere = SELECT v from start:v WHERE (v.country == "us")
+                        #Happens once for each vertex discovered that also
+                        # meets the constraint condition
+                        ACCUM @@vertexOnlyWhereAccum += 1
+
+                        #Happens once for each vertex in the result set "v"
+                        POST-ACCUM @@vertexOnlyWherePostAccum += 1;
+
+  #Select all source "s" vertices in set start and explore all "worksFor" edge paths
+  selectSourceWithEdge = SELECT s from start:s -(worksFor)-> :t
+                         #Happens once for each "worksFor" edge discovered
+                         ACCUM @@sourceWithEdgeAccum += 1
+
+                        #Happens once for each vertex in result set "s" (source)
+                        POST-ACCUM @@sourceWithEdgePostAccum += 1;
+
+  #Select all target "t" vertices found from exploring all "worksFor" edge paths from set start
+  selectTargetWithEdge = SELECT t from start:s -(worksFor)-> :t
+                         #Happens once for each "worksFor" edge discovered
+                         ACCUM @@targetWithEdgeAccum += 1
+
+                         #Happens once for each vertex in result set "t" (target)
+                         POST-ACCUM @@targetWithEdgePostAccum += 1;
+
+  PRINT @@vertexOnlyAccum;
+  PRINT @@vertexOnlyPostAccum;
+
+  PRINT @@vertexOnlyWhereAccum;
+  PRINT @@vertexOnlyWherePostAccum;
+
+  PRINT @@sourceWithEdgeAccum;
+  PRINT @@sourceWithEdgePostAccum;
+
+  PRINT @@targetWithEdgeAccum;
+  PRINT @@targetWithEdgePostAccum;
+}

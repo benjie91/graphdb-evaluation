@@ -1,0 +1,16 @@
+# determine if a user is active in terms of social networking (i.e., posts frequently)
+CREATE QUERY calculateActivity(vertex<person> seed) FOR GRAPH socialNet  
+{
+    SumAccum<INT> @@numberPosts = 0;
+    start = {seed};
+    result = SELECT postVertex FROM start -(posted:e)-> :postVertex
+           ACCUM @@numberPosts += 1;
+
+    IF  @@numberPosts < 2 THEN
+       PRINT "Not very active";
+    ELSE IF @@numberPosts < 3 THEN
+       PRINT "Semi-active";
+    ELSE 
+       PRINT "Very active";
+    END;
+}

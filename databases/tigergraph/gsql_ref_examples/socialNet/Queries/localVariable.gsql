@@ -1,0 +1,15 @@
+# An example showing a local variable succeeded where a global variable fails
+CREATE QUERY localVariable(vertex<person> m1) FOR GRAPH socialNet {
+  MaxAccum<INT> @@maxDate, @@maxDateGlob;
+  DATETIME dtGlob;
+ 
+  allUser = {person.*};
+  allUser = SELECT src
+            FROM allUser:src - (liked:e) -> post
+            ACCUM
+            DATETIME dt = e.actionTime,      # Declare and assign local dt
+            dtGlob = e.actionTime,           # dtGlob doesn't update yet
+            @@maxDate     += datetime_to_epoch(dt),
+            @@maxDateGlob += datetime_to_epoch(dtGlob);
+  PRINT @@maxDate, @@maxDateGlob, dtGlob;  # @@maxDateGlob will be 0
+}

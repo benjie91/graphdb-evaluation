@@ -1,0 +1,11 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'graphdb'
+
+include('graphdb-internship') // For interns usage
+include('graphdb-evaluation') // For CSIT and DSTA Staff only to evaluate against the graphDB (e.g. Arango, Neo4j, TigerGraph)
+include('graphdb-frontend')   // For frontend visualisation of graph node and edges

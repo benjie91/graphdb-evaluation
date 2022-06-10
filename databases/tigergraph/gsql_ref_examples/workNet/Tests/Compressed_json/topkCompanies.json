@@ -1,0 +1,24 @@
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"@@companyList": [ "company2", "company1" ]}]
+}
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"@@companyList": [
+    "company2",
+    "company1",
+    "company3",
+    "company3",
+    "company3"
+  ]}]
+}

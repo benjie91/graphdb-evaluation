@@ -1,0 +1,11 @@
+CREATE QUERY multipleEdgeTypeCheckEx(vertex<person> m1) FOR GRAPH socialNet {
+  ListAccum<STRING> @@testList1, @@testList2, @@testList3;
+  allUser = {m1};
+  allUser = SELECT s
+    FROM allUser:s - ((posted|liked|friend):e) -> (post|person):t
+    ACCUM @@testList1 += to_string(datetime_to_epoch(e.actionTime))
+         ,@@testList2 += t.gender
+        #,@@testList3 += to_string(datetime_to_epoch(e.actionTime)) + t.gender #illegal
+          ;
+  PRINT @@testList1, @@testList2, @@testList3;
+}

@@ -1,0 +1,8 @@
+RUN QUERY evaluateEx(_,_)
+RUN QUERY evaluateEx("s.gender==\"Male\"", "s.@latestLikePostTime")
+RUN QUERY evaluateEx("s.gender==\"Female\"", "s.@latestLikeTime + 1")
+RUN QUERY evaluateEx("xx", _)
+RUN QUERY evaluateEx("e.xyz", _)
+RUN QUERY evaluateEx("e.actionTime", _)
+RUN QUERY evaluateEx("s.id", _)
+RUN QUERY evaluateEx("s.gender==\"Female\"", "s.xx")

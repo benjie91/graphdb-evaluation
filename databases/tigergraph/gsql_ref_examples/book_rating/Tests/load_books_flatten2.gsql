@@ -1,0 +1,13 @@
+# v2.0 loading syntax
+CREATE LOADING JOB load_books_flatten2 FOR GRAPH Book_rating {
+  DEFINE FILENAME f;
+  LOAD f
+      TO VERTEX Book VALUES ($0, $1, _),
+      TO TEMP_TABLE t2(bookcode,genre_id,genre_name) VALUES ($0, flatten($2,",",":",2))
+      USING QUOTE="double", SEPARATOR="|";
+  
+  LOAD TEMP_TABLE t2
+      TO VERTEX Genre VALUES($"genre_id", $"genre_name"),
+      TO EDGE book_genre VALUES($"bookcode", $"genre_id");
+}
+RUN LOADING JOB load_books_flatten2 USING f="../data/book2.dat"

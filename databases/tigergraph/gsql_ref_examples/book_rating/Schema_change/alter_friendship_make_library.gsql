@@ -1,0 +1,9 @@
+# v1.2 NEW global schema_change job example
+
+USE GLOBAL
+CREATE GRAPH library()
+CREATE GLOBAL SCHEMA_CHANGE JOB alter_friendship_make_library {
+    ALTER EDGE friend_of DROP ATTRIBUTE (on_date);
+    ADD VERTEX Book TO GRAPH library;
+}
+RUN JOB alter_friendship_make_library

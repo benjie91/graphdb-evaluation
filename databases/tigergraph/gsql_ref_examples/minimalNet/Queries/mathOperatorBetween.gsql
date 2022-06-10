@@ -1,0 +1,9 @@
+CREATE QUERY mathOperatorBetween() FOR GRAPH minimalNet
+{
+    int x;
+    bool b;
+    x = 1;
+    b = (x BETWEEN 0 AND 100); PRINT b;  # True
+    b = (x BETWEEN 1 AND 2); PRINT b;    # True
+    b = (x BETWEEN 0 AND 1); PRINT b;    # True
+}

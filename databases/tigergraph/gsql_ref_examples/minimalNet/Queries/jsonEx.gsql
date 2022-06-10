@@ -1,0 +1,9 @@
+CREATE QUERY jsonEx (STRING strA, STRING strB) FOR GRAPH minimalNet {
+  JSONARRAY jsonA;
+  JSONOBJECT jsonO;
+
+  jsonA = parse_json_array( strA );
+  jsonO = parse_json_object( strB );
+
+  PRINT jsonA, jsonO;
+}

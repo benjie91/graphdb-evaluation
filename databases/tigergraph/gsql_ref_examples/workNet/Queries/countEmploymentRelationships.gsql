@@ -1,0 +1,15 @@
+#Count the total number of employment relationships for all companies
+CREATE QUERY countEmploymentRelationships() FOR GRAPH workNet {
+
+  INT localRelationshipCount;
+  SumAccum<INT> @@globalRelationshipCount;
+
+  start = {company.*};
+
+  companies = SELECT s FROM start:s -(worksFor)-> :t
+          ACCUM @@globalRelationshipCount += 1,
+                localRelationshipCount = localRelationshipCount + 1;
+
+  PRINT localRelationshipCount;
+  PRINT @@globalRelationshipCount;
+}

@@ -1,0 +1,3 @@
+$ gsql 'RUN QUERY updateEx3()'
+Semantic Check Fails: The query updateEx3 has 1 arguments, while 0 parameter is given!
+Use "_" for default/empty arguments.

@@ -1,0 +1,26 @@
+CREATE QUERY listAccumUpdateEx2(SET<VERTEX<person>> seed) FOR GRAPH workNet api("v2"){
+
+  # Each person has an LIST<INT> of skills and a LIST<STRING COMPRESS> of interests.
+  # This function copies their lists into ListAccums, and then udpates the last
+  # int with -99 and updates the last string with "fizz".
+  ListAccum<INT> @intList;
+  ListAccum<STRING COMPRESS> @stringList;
+  ListAccum<STRING> @@intFails, @@strFails;
+
+  S0 (person) = seed;
+  S1 = SELECT s
+    FROM S0:s
+    ACCUM
+      s.@intList = s.skillList,
+      s.@stringList = s.interestList
+    POST-ACCUM
+      INT len = s.@intList.size(),
+      IF NOT s.@intList.update(len-1,-99) THEN
+        @@intFails += s.id END,
+      INT len2 = s.@stringList.size(),
+      IF NOT s.@stringList.update(len2-1,"fizz") THEN
+        @@strFails += s.id END
+  ;
+  PRINT S1[S1.skillList, S1.interestList, S1.@intList, S1.@stringList]; // api v2
+  PRINT @@intFails, @@strFails;
+}

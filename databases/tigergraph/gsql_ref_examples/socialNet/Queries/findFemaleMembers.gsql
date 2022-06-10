@@ -1,0 +1,46 @@
+# finds female person in the social network. all of the following statements
+# are equivalent (i.e., produce the same results)
+CREATE QUERY findFemaleMembers() FOR GRAPH socialNet
+{
+    allVertices = {ANY}; # includes all posts and person
+    females = SELECT v FROM allVertices:v
+          WHERE v.type   == "person" AND
+                v.gender != "Male";
+ 
+    females = SELECT v FROM allVertices:v
+          WHERE v.type   == "person" AND
+                v.gender == "Female";
+ 
+    females = SELECT v FROM allVertices:v
+          WHERE v.type       == "person" AND
+                NOT v.gender == "Male";
+  
+    females = SELECT v FROM allVertices:v
+          WHERE v.type       != "post" AND
+                NOT v.gender == "Male";
+ 
+    # does not compile. cannot use NOT operator in combination with type attribute
+    #females = SELECT v FROM allVertices:v
+    #     WHERE NOT v.type   != "person" AND
+    #           NOT v.gender == "Male";
+ 
+    # does not compile. cannot use NOT operator in combination with type attribute
+    #females = SELECT v FROM allVertices:v
+    #     WHERE NOT v.type   == "post" AND
+    #           NOT v.gender == "Male";
+ 
+    personVertices = {person.*};
+    females = SELECT v FROM personVertices:v
+           WHERE NOT v.gender == "Male";
+ 
+    females = SELECT v FROM personVertices:v
+           WHERE v.gender != "Male";
+ 
+    females = SELECT v FROM personVertices:v
+           WHERE v.gender != "Male" AND true;
+ 
+    females = SELECT v FROM personVertices:v
+           WHERE v.gender != "Male" OR false;
+        
+    PRINT females;
+}

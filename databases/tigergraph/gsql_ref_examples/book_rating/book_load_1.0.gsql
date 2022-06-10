@@ -1,0 +1,59 @@
+# v1.x syntax
+# define the ONLINE_POST JOBs
+CREATE ONLINE_POST JOB load_user FOR GRAPH Book_rating {
+
+  LOAD TO VERTEX User VALUES ($0,$1,$2,$3);
+}
+CREATE ONLINE_POST JOB load_book FOR GRAPH Book_rating {
+  LOAD TO VERTEX Book VALUES ($0,$1,$2);
+}
+CREATE ONLINE_POST JOB load_genre FOR GRAPH Book_rating {
+  LOAD TO VERTEX Genre VALUES ($0,$1);
+}
+CREATE ONLINE_POST JOB load_occupation FOR GRAPH Book_rating {
+  LOAD TO VERTEX Occupation VALUES ($0,$1);
+}
+
+CREATE ONLINE_POST JOB load_rating FOR GRAPH Book_rating {
+   DELETE EDGE user_book_rating(FROM $0, TO $1);
+   LOAD TO EDGE user_book_rating VALUES ($0,$1,$2,$3);
+}
+
+CREATE ONLINE_POST JOB load_book_genre FOR GRAPH Book_rating {
+   LOAD TO TEMP_TABLE t1 (id,genrecode) VALUES($0, flatten($1,"|",1));
+   
+   LOAD TEMP_TABLE t1
+      TO EDGE book_genre VALUES ($0, $1);
+}
+
+CREATE ONLINE_POST JOB clean_user_occupation FOR GRAPH Book_rating {
+  DELETE EDGE user_occupation (FROM $0);
+}
+CREATE ONLINE_POST JOB load_user_occupation FOR GRAPH Book_rating {
+  LOAD TO EDGE user_occupation VALUES ($0,$1);
+}
+CREATE ONLINE_POST JOB load_friend FOR GRAPH Book_rating {
+  LOAD TO EDGE friend_of VALUES ($0,$1,$2);
+}
+CREATE ONLINE_POST JOB load_user_book_read FOR GRAPH Book_rating {
+  LOAD TO EDGE user_book_read VALUES ($0,$1,$2);
+}
+CREATE ONLINE_POST JOB load_sequel_of FOR GRAPH Book_rating {
+  LOAD TO EDGE sequel_of VALUES ($0,$1);
+}
+
+# load the data
+RUN JOB load_user USING FILENAME="./data/user.dat", SEPARATOR=",", EOL="\n"
+RUN JOB load_book USING FILENAME="./data/book.dat", SEPARATOR=",", EOL="\n"
+RUN JOB load_genre USING FILENAME="./data/genre.dat", SEPARATOR=",", EOL="\n"
+RUN JOB load_occupation USING FILENAME="./data/occupation.dat", SEPARATOR=",", EOL="\n"
+
+RUN JOB load_rating USING FILENAME="./data/user_book_rating.dat", SEPARATOR=",", EOL="\n"
+RUN JOB load_book_genre USING FILENAME="./data/book_genre.dat", SEPARATOR=",", EOL="\n"
+RUN JOB load_friend USING FILENAME="./data/friend_of.dat", SEPARATOR=",", EOL="\n"
+RUN JOB load_user_book_read USING FILENAME="./data/user_book_read.dat", SEPARATOR=",", EOL="\n"
+RUN JOB load_sequel_of USING FILENAME="./data/sequel_of.dat", SEPARATOR=",", EOL="\n"
+
+RUN JOB load_user_occupation USING FILENAME="./data/user_occupation.dat", SEPARATOR=",", EOL="\n"
+RUN JOB clean_user_occupation USING FILENAME="./data/user_occupation_update.dat", SEPARATOR=",", EOL="\n"
+RUN JOB load_user_occupation USING FILENAME="./data/user_occupation_update.dat", SEPARATOR=",", EOL="\n"

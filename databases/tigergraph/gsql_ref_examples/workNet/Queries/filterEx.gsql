@@ -1,0 +1,23 @@
+CREATE QUERY filterEx (SET<STRING> pIds, INT yr) FOR GRAPH workNet api("v2") {
+
+  SetAccum<vertex<company>> @recentEmplr, @allEmplr;
+  BagAccum<string> @diffCountry, @allCountry;
+
+  Start = {person.*};
+
+  L0 = SELECT v
+       FROM  Start:v
+       WHERE v.id IN pIds
+       ACCUM
+         # filter using edge attribute
+         v.@recentEmplr += v.neighbors("worksFor").filter(worksFor.startYear >= yr),
+         v.@allEmplr += v.neighbors("worksFor").filter(true),
+
+        # vertex alias attribute and neighbor type attribute
+        v.@diffCountry += v.neighborAttribute("worksFor", "company", "id")
+                          .filter(v.locationId != company.country),
+        v.@allCountry += v.neighborAttribute("worksFor", "company", "id")
+       ;
+
+  PRINT yr, L0[L0.@recentEmplr, L0.@allEmplr, L0.@diffCountry, L0.@allCountry]; // api v2
+}

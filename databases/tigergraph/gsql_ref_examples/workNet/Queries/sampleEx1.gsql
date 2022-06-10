@@ -1,0 +1,24 @@
+CREATE QUERY sampleEx1() FOR GRAPH workNet
+{
+	SumAccum<INT> @timesTraversedNoSample;
+	SumAccum<INT> @timesTraversedWithSample;
+	workers = {person.*};
+ 
+	# The 'beforeSample' result set encapsulates the normal functionality of
+	# a SELECT statement, where 'timesTraversedNoSample' vertex accumulator is increased for
+	# each edge incident to the vertex.
+	beforeSample = SELECT v FROM workers:t -(:e)-> :v
+		       ACCUM v.@timesTraversedNoSample += 1;
+ 
+	# The 'afterSample' result set is formed by those vertices which can be
+	# reached when for each source vertex, only one edge is used for traversal.
+	# This is demonstrated by the values of 'timesTraversedWithSample' vertex accumulator, which
+	# is increased for each edge incident to the vertex which is used in the
+	# sample.
+	afterSample = SELECT v FROM workers:t -(:e)-> :v
+		      SAMPLE 1 EDGE WHEN t.outdegree() >= 1		# only use 1 edge from the source vertex
+		      ACCUM v.@timesTraversedWithSample += 1;
+
+	PRINT beforeSample;
+	PRINT afterSample;
+}

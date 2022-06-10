@@ -1,0 +1,15 @@
+# Show each user's post and liked post time
+CREATE QUERY userPosts2() FOR GRAPH socialNet {
+  ListAccum<VERTEX> @personPosts;
+  ListAccum<EDGE> @personLikedInfo;
+  start = {person.*};
+ 
+  # Find all user post topics and append them to the vertex list accum
+  userPostings = SELECT s FROM start:s -(posted)-> :g
+                 ACCUM s.@personPosts += g;
+ 
+  userPostings = SELECT s from start:s -(liked:e)-> :g
+                 ACCUM s.@personLikedInfo += e;
+ 
+  PRINT start;
+}

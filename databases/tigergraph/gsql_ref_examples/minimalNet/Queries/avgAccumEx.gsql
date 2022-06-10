@@ -1,0 +1,17 @@
+# AvgAccum Example
+CREATE QUERY avgAccumEx() FOR GRAPH minimalNet {
+
+  AvgAccum @@averageAccum;
+
+  @@averageAccum += 10;
+  @@averageAccum += 5.5; # avg = (10+5.5) / 2.0
+  @@averageAccum += -1;  # avg = (10+5.5-1) / 3.0
+
+  PRINT @@averageAccum;  # 4.8333...
+
+  @@averageAccum = 99;   # reset
+  @@averageAccum += 101; # avg = (99 + 101) / 2
+
+  PRINT @@averageAccum;  # 100
+}
+

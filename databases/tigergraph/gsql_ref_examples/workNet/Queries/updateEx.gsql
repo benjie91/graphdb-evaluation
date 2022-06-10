@@ -1,0 +1,12 @@
+# Change all "person" vertices with location equal to "us" to "USA"
+CREATE QUERY updateEx() FOR GRAPH workNet  {
+  S = {person.*};
+
+  UPDATE s FROM S:s
+  SET s.locationId = "USA",  # simple base type attribute
+      s.skillList = [1,2,3]  # collection-type attribute
+  WHERE s.locationId == "us";
+
+  # The update cannot become effective within this query, so PRINT S still show "us". 
+  PRINT S;
+}

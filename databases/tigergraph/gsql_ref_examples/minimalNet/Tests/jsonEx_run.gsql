@@ -1,0 +1,2 @@
+RUN QUERY jsonEx("[123]","{\"abc\":123}")
+RUN QUERY jsonEx("{123}","{\"abc\":\"123\"}")

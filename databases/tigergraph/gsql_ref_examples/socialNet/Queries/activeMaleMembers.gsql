@@ -1,0 +1,24 @@
+# Compute the total post activity for each male person.
+# Because the gender of the vertex does not change, evaluating whether the person vertex
+# is male before (WHERE) the ACCUM clause or after (HAVING) the ACCUM clause does not
+# change the result. However, if the condition in the HAVING clause could change within
+# the ACCUM clause, these statements would produce different results.
+CREATE QUERY activeMaleMembers() FOR GRAPH socialNet  
+{
+    SumAccum<INT> @activityAmount;
+    start = {person.*};
+
+    ### --- statements produce equivalent results
+    result1 = SELECT v FROM start:v -(:e)-> post:tgt
+                      WHERE v.gender == "Male"
+                      ACCUM v.@activityAmount +=1
+                      ORDER BY v.id;
+
+    result2 = SELECT v FROM start:v -(:e)-> post:tgt
+                      ACCUM v.@activityAmount +=1
+                      HAVING v.gender == "Male"
+                      ORDER BY v.id;
+
+    PRINT result1[result1.@activityAmount];
+    PRINT result2[result2.@activityAmount];
+}

@@ -1,0 +1,9 @@
+# v1.2 Add USE GRAPH. Change the example.
+
+USE GRAPH Book_rating
+CREATE SCHEMA_CHANGE JOB add_reviews FOR GRAPH Book_rating {
+    ADD VERTEX Review (PRIMARY_ID id UINT, review_date DATETIME, url STRING);
+    ADD UNDIRECTED EDGE wrote_review (FROM User, TO Review);
+    ADD UNDIRECTED EDGE review_of_book (FROM Review, TO Book);
+}
+RUN JOB add_reviews

@@ -1,0 +1,19 @@
+#Find all company person who live in a given country
+CREATE QUERY employeesByCompany(STRING country) FOR GRAPH workNet   {
+  ListAccum<VERTEX<company>> @@companyList;
+  start = {ANY};
+
+  # Build a list of all company vertices
+  #  (these are vertex IDs only)
+  s = SELECT v FROM start:v
+      WHERE v.type == "company"
+      ACCUM @@companyList += v;
+
+  # Use the vertex IDs as Seeds for vertex sets
+  FOREACH item IN @@companyList DO
+    companyItem = {item};
+    employees = SELECT t FROM companyItem -(worksFor)-> :t
+                WHERE (t.locationId == country);
+    PRINT employees;
+  END;
+}

@@ -1,0 +1,20 @@
+CREATE QUERY printBasicExample(VERTEX<person> v) FOR GRAPH socialNet   {
+
+  SetAccum<VERTEX> @@testSet;
+  SetAccum<EDGE> @likedSet;
+  int x = 3;
+
+  Seed = person.*;
+  A = SELECT s
+      FROM Seed:s
+      WHERE s.gender == "Female"
+      ACCUM @@testSet += s;
+
+  B = SELECT t
+      FROM Seed:s - (liked:e) -> post:t
+      ACCUM s.@likedSet += e;
+
+  Print @@testSet, 5.0, "test", x, v, v.gender;
+  Print A;
+  PRINT A[A.@likedSet]; // api v2
+} 

@@ -1,0 +1,2 @@
+RUN QUERY employmentByCountry("us")
+RUN QUERY employmentByCountry("can")

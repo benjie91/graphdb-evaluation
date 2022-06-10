@@ -1,0 +1,11 @@
+CREATE QUERY vertexSetVariableTypeExample(vertex<person> m1) FOR GRAPH socialNet {
+  INT ite = 0;
+  S (ANY) = {m1};   # ANY is necessary
+  WHILE  ite < 5 DO
+    S = SELECT t
+        FROM S:s - (ANY:e) -> ANY:t;
+  
+    ite = ite + 1;
+  END;
+  PRINT S;
+}

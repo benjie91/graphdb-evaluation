@@ -1,0 +1,12 @@
+# Delete all user occupation edges if the user is in the new files, then load the new files
+# v2.0 loading syntax
+CREATE LOADING JOB clean_user_occupation FOR GRAPH Book_rating {
+  DEFINE FILENAME f;
+  DELETE EDGE user_occupation (FROM $0) FROM f;
+}
+CREATE LOADING JOB load_user_occupation FOR GRAPH Book_rating {
+  DEFINE FILENAME f;
+  LOAD f TO EDGE user_occupation VALUES ($0,$1);
+}
+RUN LOADING JOB clean_user_occupation USING f="../data/user_occupation_update.dat"
+RUN LOADING JOB load_user_occupation USING f="../data/user_occupation_update.dat"

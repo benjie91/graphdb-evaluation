@@ -1,0 +1,4 @@
+CREATE QUERY coalesceFuncEx2 (STRING homePhone, STRING cellPhone, STRING companyPhone) FOR GRAPH minimalNet   {
+  PRINT "contact number: " + COALESCE(homePhone, cellPhone, companyPhone);  # for testing all NULL  
+  PRINT "contact number: " + COALESCE(homePhone, cellPhone, companyPhone, "N/A");  
+}

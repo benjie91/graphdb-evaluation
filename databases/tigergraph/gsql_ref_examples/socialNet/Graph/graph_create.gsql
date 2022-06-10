@@ -1,0 +1,41 @@
+# Updated 2/24/18 for v1.2
+# Updated 5/1/18 for v2.0
+DROP ALL
+CREATE VERTEX person(PRIMARY_ID personId UINT, id STRING, gender STRING) WITH STATS="OUTDEGREE_BY_EDGETYPE"
+CREATE UNDIRECTED EDGE friend(FROM person, TO person)
+CREATE VERTEX post(PRIMARY_ID postId UINT, subject STRING, postTime DATETIME)
+CREATE DIRECTED EDGE posted(FROM person, TO post)
+CREATE DIRECTED EDGE liked(FROM person, TO post, actionTime DATETIME)
+CREATE GRAPH socialNet(*)
+
+USE GRAPH socialNet // v1.2
+CREATE LOADING JOB loadMember FOR GRAPH socialNet {
+  DEFINE FILENAME f;
+  LOAD f TO VERTEX person VALUES($0, $0, $1) ;
+}
+
+CREATE LOADING JOB loadFriend FOR GRAPH socialNet {
+  DEFINE FILENAME f;
+  LOAD f TO EDGE friend VALUES($0, $1) ;
+}
+
+CREATE LOADING JOB loadPost FOR GRAPH socialNet {
+  DEFINE FILENAME f;
+  LOAD f TO VERTEX post VALUES($0, $1, $2);
+}
+
+CREATE LOADING JOB loadPosted FOR GRAPH socialNet {
+  DEFINE FILENAME f;
+  LOAD f TO EDGE posted VALUES($0, $1) ;
+}
+
+CREATE LOADING JOB loadLiked FOR GRAPH socialNet {
+  DEFINE FILENAME f;
+  LOAD f TO EDGE liked VALUES($0, $1, $2) ;
+}
+
+RUN LOADING JOB loadMember USING f="./persons"
+RUN LOADING JOB loadFriend USING f="./friends"
+RUN LOADING JOB loadPost USING f="./posts"
+RUN LOADING JOB loadPosted USING f="./posted"
+RUN LOADING JOB loadLiked USING f="./liked"

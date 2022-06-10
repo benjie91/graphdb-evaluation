@@ -1,0 +1,18 @@
+# Display the total number times connected users posted about a certain subject
+CREATE QUERY userNetworkPosts (vertex<person> seedUser, STRING subjectName) FOR GRAPH socialNet   {
+    SumAccum<INT> @@topicSum = 0;
+    OrAccum @visited;
+    reachableVertices = {};            # empty vertex set
+    visitedVertices (ANY) = {seedUser};  # set that can contain ANY type of vertex
+
+    WHILE visitedVertices.size() !=0 DO        # loop terminates when all neighbors are visited
+        visitedVertices = SELECT s              # s is all neighbors of visitedVertices which have not been visited
+            FROM visitedVertices-(:e)->:s
+            WHERE s.@visited == false
+            ACCUM s.@visited = true,
+                CASE
+                    WHEN s.type == "post" and s.subject == subjectName THEN @@topicSum += 1
+                END;
+    END;
+    PRINT @@topicSum;
+}

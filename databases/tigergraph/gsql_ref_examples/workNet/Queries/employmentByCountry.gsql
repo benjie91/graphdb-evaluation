@@ -1,0 +1,23 @@
+#List all the persons located in the specified country
+CREATE QUERY employmentByCountry(STRING countryName) FOR GRAPH workNet {
+  MapAccum < STRING, ListAccum<STRING> > @@employees;
+  start = {person.*};                   # start will have a set of all person type vertices
+ 
+  #Build a map using person locationId as a key and a list of strings to hold multiple person ids
+  s = SELECT v FROM start:v
+      ACCUM @@employees += (v.locationId -> v.id);
+ 
+  #Iterate the map using (key,value) pairs
+  FOREACH (key,val) IN @@employees DO
+    IF key == countryName THEN
+      PRINT val.size();
+ 
+      #Nested foreach to iterate over the list of person ids
+      FOREACH employee IN val DO
+        PRINT employee;
+      END;
+ 
+      BREAK;
+    END;
+  END;
+}

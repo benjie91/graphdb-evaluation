@@ -1,0 +1,6 @@
+CREATE QUERY printCatPosts() FOR GRAPH socialNet   {
+    posts = {post.*};
+    catPosts = SELECT v FROM posts:v        # select only those post vertices
+                WHERE v.subject == "cats";  # which have a subset of 'cats'
+    PRINT catPosts;
+}

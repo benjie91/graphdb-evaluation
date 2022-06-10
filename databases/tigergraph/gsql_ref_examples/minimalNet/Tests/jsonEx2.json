@@ -1,0 +1,36 @@
+GSQL > RUN QUERY jsonEx2()
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"jsonO": {
+      "arr": [
+        "xyz",
+        123,
+        true
+      ],
+      "bool": true,
+      "string": "xyz",
+      "double": 3,
+      "obj": {"obj": {"bool": false}},
+      "int": 1
+    }},
+    {
+      "jsonO.getBool(bool)": true,
+      "jsonA.getDouble(3)": 5,
+      "jsonA.getDouble(1)": 123,
+      "jsonO.getJsonObject(obj)": {"obj": {"bool": false}},
+      "jsonO2.getJsonObject(obj)": {"bool": false},
+      "jsonO.getJsonArray(arr)": [
+        "xyz",
+        123,
+        true
+      ],
+      "jsonA2.getString(0)": "xyz"
+    }
+  ]
+}

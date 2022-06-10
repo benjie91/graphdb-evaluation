@@ -1,0 +1,41 @@
+GSQL > RUN QUERY vertexFunctionExample("person5")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {
+      "deg4": 2,
+      "deg2": 2,
+      "deg3": 2,
+      "deg1": 5
+    },
+    {"S3": [{
+      "v_id": "person5",
+      "attributes": {
+        "@attr2": [1263330725],
+        "@attr1": [
+          1297054971,
+          1296694941
+        ],
+        "gender": "Female",
+        "@neighborSet": [
+          "6",
+          "11",
+          "4",
+          "person7",
+          "person4"
+        ],
+        "id": "person5",
+        "@neighborSet2": [
+          "4",
+          "11"
+        ]
+      },
+      "v_type": "person"
+    }]}
+  ]
+}

@@ -1,0 +1,4 @@
+# First parameter is any vertex; second parameter must be a person type.
+CREATE QUERY printOneVertex(VERTEX va, VERTEX<person> vp) FOR GRAPH socialNet {
+  PRINT va, vp;
+}

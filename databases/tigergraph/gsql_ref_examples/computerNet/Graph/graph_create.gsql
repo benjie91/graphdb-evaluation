@@ -1,0 +1,19 @@
+# Updated 2/24/18 for v1.2
+# Updated 5/1/18 for v2.0
+DROP ALL
+CREATE VERTEX computer(PRIMARY_ID compID UINT, id STRING)
+CREATE DIRECTED EDGE connected(FROM computer, TO computer, connectionSpeed DOUBLE, securityLevel INT)
+CREATE GRAPH computerNet(*)
+
+USE GRAPH computerNet // v1.2
+CREATE LOADING JOB loadComputer FOR GRAPH computerNet {
+  DEFINE FILENAME f;
+  LOAD f TO VERTEX computer VALUES($0, $0);
+}
+CREATE LOADING JOB loadConnection FOR GRAPH computerNet {
+  DEFINE FILENAME f;
+  LOAD f TO EDGE connected VALUES($0, $1, $2, $3);
+}
+
+RUN LOADING JOB loadComputer USING f="./computers"
+RUN LOADING JOB loadConnection USING f="./connections"

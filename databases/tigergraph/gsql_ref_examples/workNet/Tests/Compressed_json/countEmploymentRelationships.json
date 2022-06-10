@@ -1,0 +1,12 @@
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"localRelationshipCount": 1},
+    {"@@globalRelationshipCount": 17}
+  ]
+}

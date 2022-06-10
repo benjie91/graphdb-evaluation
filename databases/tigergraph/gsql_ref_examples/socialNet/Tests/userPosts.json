@@ -1,0 +1,95 @@
+GSQL > RUN QUERY userPosts()
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"userPostings": [
+    {
+      "v_id": "person7",
+      "attributes": {
+        "gender": "Male",
+        "@personPosts": [
+          "tigergraph",
+          "cats"
+        ],
+        "id": "person7"
+      },
+      "v_type": "person"
+    },
+    {
+      "v_id": "person5",
+      "attributes": {
+        "gender": "Female",
+        "@personPosts": [
+          "coffee",
+          "cats"
+        ],
+        "id": "person5"
+      },
+      "v_type": "person"
+    },
+    {
+      "v_id": "person1",
+      "attributes": {
+        "gender": "Male",
+        "@personPosts": ["Graphs"],
+        "id": "person1"
+      },
+      "v_type": "person"
+    },
+    {
+      "v_id": "person4",
+      "attributes": {
+        "gender": "Female",
+        "@personPosts": ["cats"],
+        "id": "person4"
+      },
+      "v_type": "person"
+    },
+    {
+      "v_id": "person2",
+      "attributes": {
+        "gender": "Female",
+        "@personPosts": ["tigergraph"],
+        "id": "person2"
+      },
+      "v_type": "person"
+    },
+    {
+      "v_id": "person3",
+      "attributes": {
+        "gender": "Male",
+        "@personPosts": ["query languages"],
+        "id": "person3"
+      },
+      "v_type": "person"
+    },
+    {
+      "v_id": "person8",
+      "attributes": {
+        "gender": "Male",
+        "@personPosts": [
+          "cats",
+          "Graphs"
+        ],
+        "id": "person8"
+      },
+      "v_type": "person"
+    },
+    {
+      "v_id": "person6",
+      "attributes": {
+        "gender": "Male",
+        "@personPosts": [
+          "tigergraph",
+          "cats"
+        ],
+        "id": "person6"
+      },
+      "v_type": "person"
+    }
+  ]}]
+}

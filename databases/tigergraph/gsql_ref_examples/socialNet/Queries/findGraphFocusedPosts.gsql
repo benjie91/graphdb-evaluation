@@ -1,0 +1,7 @@
+CREATE QUERY findGraphFocusedPosts() FOR GRAPH socialNet  
+{
+    posts = {post.*};
+    results = SELECT v FROM posts:v                 # select only post vertices
+        WHERE v.subject IN ("Graph", "tigergraph");   # which have a subject of either 'Graph' or 'tigergraph'
+    PRINT results;
+}

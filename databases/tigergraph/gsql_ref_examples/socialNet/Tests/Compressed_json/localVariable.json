@@ -1,0 +1,13 @@
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{
+    "dtGlob": "2010-01-14 11:23:05",
+    "@@maxDateGlob": 0,
+    "@@maxDate": 1263618953
+  }]
+}

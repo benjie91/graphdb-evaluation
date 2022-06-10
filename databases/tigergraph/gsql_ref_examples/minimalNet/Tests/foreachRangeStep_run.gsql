@@ -1,0 +1,2 @@
+RUN QUERY foreachRangeStep(100,0,-9)
+RUN QUERY foreachRangeStep(-100,100,-9)

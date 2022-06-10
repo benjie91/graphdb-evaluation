@@ -1,0 +1,47 @@
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {
+      "@@strCompressList": [
+        "music",
+        "engineering",
+        "teaching",
+        "teaching",
+        "teaching"
+      ],
+      "@@strSet": [ "teaching", "engineering", "music" ],
+      "@@strCompressSet": [ "music", "engineering", "teaching" ],
+      "@@strList": [
+        "music",
+        "engineering",
+        "teaching",
+        "teaching",
+        "teaching"
+      ]
+    },
+    {
+      "@@strSet2": [ "music", "engineering", "teaching" ],
+      "@@strCompressList2": [
+        "music",
+        "engineering",
+        "teaching",
+        "teaching",
+        "teaching",
+        "xyz"
+      ],
+      "@@strList2": [
+        "music",
+        "engineering",
+        "teaching",
+        "teaching",
+        "teaching"
+      ],
+      "@@strCompressSet2": [ "teaching", "engineering", "music" ]
+    }
+  ]
+}

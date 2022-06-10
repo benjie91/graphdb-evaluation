@@ -1,0 +1,7 @@
+CREATE QUERY friendsNotInblacklist (VERTEX<person> seed, SET<VERTEX<person>> blackList) FOR GRAPH socialNet {
+  Start = {seed};
+  Result = SELECT v
+      FROM Start:s-(friend:e)-person:v
+      WHERE v NOT IN blackList;
+  PRINT Result;
+}

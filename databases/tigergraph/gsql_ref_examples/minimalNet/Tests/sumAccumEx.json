@@ -1,0 +1,15 @@
+GSQL > RUN QUERY sumAccumEx()
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"@@intAccum": 2},
+    {"@@floatAccum": 0.66667},
+    {"@@doubleAccum": 4.33333},
+    {"@@stringAccum": "Hello World"}
+  ]
+}

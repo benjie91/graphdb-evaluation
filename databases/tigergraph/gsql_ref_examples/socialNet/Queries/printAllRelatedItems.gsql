@@ -1,0 +1,22 @@
+# uses a SELECT statement to print out everything related to a given user
+#   this includes posts that the user liked, posts that the user made, and friends
+#   of the user
+CREATE QUERY printAllRelatedItems(vertex<person> seed) FOR GRAPH socialNet  
+{
+    sourceVertex = {seed};
+
+    # -- statements produce equivalent output
+    # returns all vertices of type either 'person' or 'post' that can be reached
+    #   from the sourceVertex set using one edge of any type
+    everythingRelated = SELECT v FROM sourceVertex -(:e)-> (person|post):v;
+
+    # returns all vertices of any type that can be reached from the sourceVertex
+    #   using one edge of any type
+    # this statement is equivalent to the above one because the graph schema only
+    #   has vertex types of either 'person' or 'post'. if there were more vertex
+    #   types present, these would not be equivalent.
+    everythingRelated = SELECT v FROM sourceVertex -(:e)-> :v;
+    # --
+
+    PRINT everythingRelated;
+}

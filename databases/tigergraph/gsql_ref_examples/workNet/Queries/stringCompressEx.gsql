@@ -1,0 +1,27 @@
+CREATE QUERY stringCompressEx(VERTEX<person> m1) FOR GRAPH workNet {
+  ListAccum<STRING COMPRESS> @@strCompressList, @@strCompressList2;
+  SetAccum<STRING COMPRESS> @@strCompressSet, @@strCompressSet2;
+  ListAccum<STRING> @@strList, @@strList2;
+  SetAccum<STRING> @@strSet, @@strSet2;
+
+  S = {m1};
+
+  S = SELECT s 
+      FROM S:s
+      ACCUM @@strSet += s.interestSet,    
+            @@strList += s.interestList,   
+            @@strCompressSet += s.interestSet,   # use the dictionary from person.interestSet
+            @@strCompressList += s.interestList; # use the dictionary from person.interestList
+
+  @@strCompressList2 += @@strCompressList;  # @@strCompressList2 gets the dictionary from @@strCompressList, which is from person.interestList
+  @@strCompressList2 += "xyz";   # "xyz" is not in the dictionary, so store the actual string value
+
+  @@strCompressSet2 += @@strCompressSet; 
+  @@strCompressSet2 += @@strSet; 
+
+  @@strList2 += @@strCompressList;  # string compress integer values are decoded to strings
+  @@strSet2 += @@strCompressSet;  
+
+  PRINT @@strSet, @@strList, @@strCompressSet, @@strCompressList;
+  PRINT @@strSet2, @@strList2, @@strCompressSet2, @@strCompressList2;
+}

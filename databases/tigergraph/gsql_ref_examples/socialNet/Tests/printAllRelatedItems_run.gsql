@@ -1,0 +1,2 @@
+RUN QUERY printAllRelatedItems("person2")
+RUN QUERY printAllRelatedItems("person6")

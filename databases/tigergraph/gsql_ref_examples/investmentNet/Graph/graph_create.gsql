@@ -1,0 +1,25 @@
+# Updated 2/24/18 for v1.2
+# Updated 5/2/18 for v2.0
+DROP ALL
+TYPEDEF TUPLE <age UINT (4), mothersName STRING(20) > SECRET_INFO
+CREATE VERTEX person(PRIMARY_ID personId STRING, portfolio MAP<STRING, DOUBLE>, secretInfo SECRET_INFO)
+CREATE VERTEX stockOrder(PRIMARY_ID orderId STRING, ticker STRING, orderSize UINT, price FLOAT)
+CREATE UNDIRECTED EDGE makeOrder(FROM person, TO stockOrder, orderTime DATETIME)
+CREATE GRAPH investmentNet (*)
+
+USE GRAPH investmentNet // v1.2
+CREATE LOADING JOB loadPerson FOR GRAPH investmentNet {
+  DEFINE FILENAME f;
+    LOAD f
+    TO VERTEX person VALUES($0, SPLIT($1, ":", ";"), SECRET_INFO( $2, $3 ) );
+}
+
+CREATE LOADING JOB loadOrder FOR GRAPH investmentNet {
+  DEFINE FILENAME f;
+    LOAD f
+    TO VERTEX stockOrder VALUES($1, $3, $4, $5),
+    TO EDGE makeOrder VALUES($0, $1, $2);
+}
+
+RUN LOADING JOB loadPerson USING f="./persons"
+RUN LOADING JOB loadOrder USING f="./orders"

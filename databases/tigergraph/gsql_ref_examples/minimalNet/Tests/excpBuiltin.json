@@ -1,0 +1,14 @@
+GSQL > RUN QUERY excpBuiltin(7)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"100.0/n1": 14.28571}]
+}
+GSQL > RUN QUERY excpBuiltin("a")
+Values of parameter n1 must be INT64 type, invalid value [a] provided.
+GSQL > RUN QUERY excpBuiltin(0)
+Runtime Error: divider is zero.

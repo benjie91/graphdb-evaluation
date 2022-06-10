@@ -1,0 +1,27 @@
+CREATE QUERY vertexFunctionExample(vertex<person> m1) FOR GRAPH socialNet {
+ 
+  SetAccum<Vertex> @neighborSet;
+  SetAccum<Vertex> @neighborSet2;
+  SetAccum<DATETIME> @attr1;
+  BagAccum<DATETIME> @attr2;
+ 
+  int deg1, deg2, deg3, deg4;
+ 
+  S = {m1};
+  S2 = SELECT S
+       FROM S - (posted:e) -> post:t
+       ACCUM deg1 = S.outdegree(),
+             deg2 = S.outdegree("posted"),
+             deg3 = S.outdegree(e.type),  # same as deg2
+             STRING str = "posted",
+             deg4 = S.outdegree(str);     # same as deg2
+  PRINT deg1, deg2, deg3, deg4;
+ 
+  S3 = SELECT S
+       FROM S:s
+       POST-ACCUM s.@neighborSet += s.neighbors(),
+                  s.@neighborSet2 += s.neighbors("posted"),
+                  s.@attr1 += s.neighborAttribute("posted", "post", "postTime"),
+                  s.@attr2 += s.edgeAttribute("liked", "actionTime");
+  PRINT S3;
+}

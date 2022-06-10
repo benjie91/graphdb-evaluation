@@ -1,0 +1,3 @@
+RUN QUERY coalesceFuncEx(_,_)
+RUN QUERY coalesceFuncEx(1,2)
+RUN QUERY coalesceFuncEx(_,2.5)

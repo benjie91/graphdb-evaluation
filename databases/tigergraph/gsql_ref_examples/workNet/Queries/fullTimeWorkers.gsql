@@ -1,0 +1,9 @@
+# find all workers who are full time at some company
+CREATE QUERY fullTimeWorkers() FOR GRAPH workNet  
+{
+    start = {person.*};
+    fullTimeWorkers = SELECT v FROM start:v -(worksFor:e)-> company:t
+            WHERE e.fullTime;   # fullTime is a boolean attribute on the edge
+
+    PRINT fullTimeWorkers;
+}

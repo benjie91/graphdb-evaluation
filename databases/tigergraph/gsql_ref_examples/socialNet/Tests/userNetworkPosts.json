@@ -1,0 +1,10 @@
+GSQL > RUN QUERY userNetworkPosts("person1", "Graphs")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"@@topicSum": 3}]
+}

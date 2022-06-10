@@ -1,0 +1,17 @@
+# find all person meeting a given activityThreshold, based on how many posts or likes a person has made
+CREATE QUERY printMemberActivity() FOR GRAPH socialNet  
+{
+        SumAccum<int> @activityAmount;
+        start = {person.*};
+
+        ### --- equivalent statements -----
+        result = SELECT v FROM start:v -(:e)-> post:tgt
+                          ACCUM v.@activityAmount +=1
+                          HAVING true;
+
+        result = SELECT v FROM start:v -(:e)-> post:tgt
+                          ACCUM v.@activityAmount +=1;
+        ### -----
+
+        PRINT result;
+}

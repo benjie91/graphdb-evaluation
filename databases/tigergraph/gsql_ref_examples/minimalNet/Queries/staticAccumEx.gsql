@@ -1,0 +1,5 @@
+CREATE QUERY staticAccumEx(INT x) FOR GRAPH minimalNet   {
+  STATIC ListAccum<INT> @@testList;
+  @@testList += x;
+  PRINT @@testList;
+}

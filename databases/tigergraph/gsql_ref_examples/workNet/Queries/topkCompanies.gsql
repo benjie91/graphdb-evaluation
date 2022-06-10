@@ -1,0 +1,23 @@
+# find at least the top-k companies closest to a given seed vertex, if they exist
+CREATE QUERY topkCompanies(vertex<person> seed, INT k) FOR GRAPH workNet  
+{
+    SetAccum<vertex<company>> @@companyList;
+    OrAccum @visited = false;
+    visitedVertices (ANY) = {seed};
+    WHILE true DO
+        visitedVertices = SELECT v                  # traverse from x to its unvisited neighbors
+                FROM visitedVertices -(:e)-> :v
+                WHERE v.@visited == false
+                ACCUM CASE
+                    WHEN (v.type == "company") THEN # count the number of company vertices encountered
+                        @@companyList += v
+                    END
+                POST-ACCUM v.@visited += true;      # mark vertices as visited
+
+        # exit loop when at least k companies have been counted
+        IF @@companyList.size() >= k OR visitedVertices.size() == 0 THEN
+           BREAK;
+        END;
+    END;
+    PRINT @@companyList;
+}

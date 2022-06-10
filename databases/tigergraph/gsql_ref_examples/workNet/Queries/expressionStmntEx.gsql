@@ -1,0 +1,40 @@
+#Show various types of expression statements
+CREATE QUERY expressionStmntEx() FOR GRAPH workNet   { 
+  TYPEDEF tuple<STRING countryName, STRING companyName> companyInfo;
+
+  ListAccum<companyInfo> @employerInfo;
+  SumAccum<INT> @@a;
+  ListAccum<STRING> @employers;
+  SumAccum<INT> @employerCount;
+  SetAccum<STRING> @@countrySet;
+
+  INT x;
+
+  #exprStmnt := name "=" expr
+  x = 10;
+
+  #gaccumAssignStmt := "@@" name ("+=" | "=") expr
+  @@a = 10;
+
+  PRINT x, @@a;
+
+  start = {person.*};
+
+  employees = SELECT s FROM start:s -(worksFor)-> :t
+
+	      #exprStmnt := name "." "@" name ("+="| "=") expr
+  	      ACCUM s.@employers += t.id,
+
+		    #exprStmnt := name ["<" type ["," type"]* ">"] "(" [argList] ")"
+		    s.@employerInfo += companyInfo(t.country, t.id),
+
+		    #gaccumAccumStmt := "@@" name "+=" expr
+		    @@countrySet += t.country
+
+	      #exprStmnt := name "." "@" name ["." name "(" [argList] ")"]
+	      POST-ACCUM s.@employerCount += s.@employers.size();
+
+  #exprStmnt := "@@" name ["." name "(" [argList] ")"]+
+  PRINT @@countrySet.size();
+  PRINT employees;
+}

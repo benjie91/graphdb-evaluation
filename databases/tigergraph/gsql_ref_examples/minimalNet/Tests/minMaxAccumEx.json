@@ -1,0 +1,13 @@
+GSQL > RUN QUERY minMaxAccumEx()
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"@@minAccum": -10},
+    {"@@maxAccum": 2.8}
+  ]
+}

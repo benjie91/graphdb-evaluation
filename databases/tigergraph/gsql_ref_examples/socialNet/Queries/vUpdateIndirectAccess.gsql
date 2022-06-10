@@ -1,0 +1,24 @@
+CREATE QUERY vUpdateIndirectAccess() FOR GRAPH socialNet {
+ 
+  SetAccum<VERTEX<person>> @posters;
+  SetAccum<VERTEX<person>> @fellows;
+   
+   Persons = {person.*};
+   # To each post, attach a list of persons who liked the post
+   likedPosts = SELECT p
+       FROM Persons:src -(liked:e)-> post:p
+       ACCUM
+        p.@posters += src;
+    
+    # To each person who liked a post, attach a list of everyone
+    # who also liked one of this person's liked posts.
+    likedPosts = SElECT src
+        FROM likedPosts:src
+        ACCUM
+          FOREACH v IN src.@posters DO
+            v.@fellows += src.@posters
+          END
+        ORDER BY src.subject;
+             
+    PRINT Persons[Persons.@fellows];
+}

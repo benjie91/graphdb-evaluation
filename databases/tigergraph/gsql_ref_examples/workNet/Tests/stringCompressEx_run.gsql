@@ -1,0 +1,1 @@
+RUN QUERY stringCompressEx("person12")

@@ -1,0 +1,17 @@
+# MinAccum and MaxAccum Example
+CREATE QUERY minMaxAccumEx() FOR GRAPH minimalNet   {
+
+  MinAccum<INT> @@minAccum;
+  MaxAccum<FLOAT> @@maxAccum;
+
+  @@minAccum += 40;
+  @@minAccum += 20;
+  @@minAccum += -10;
+
+  @@maxAccum += -1.1;
+  @@maxAccum += 2.5;
+  @@maxAccum += 2.8;
+
+  PRINT @@minAccum;
+  PRINT @@maxAccum;
+}

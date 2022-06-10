@@ -1,0 +1,56 @@
+DROP ALL
+CREATE VERTEX company (PRIMARY_ID companyId string, id string, company_name string default "unknown")
+CREATE VERTEX persons (PRIMARY_ID pId string, id string, profileId string default "0", registrationDate uint default 0)
+CREATE VERTEX skill (PRIMARY_ID skillId uint, id string)
+CREATE UNDIRECTED EDGE person_work_company (FROM persons, TO company, positionId double, industryId FLOAT, startTime int)
+CREATE UNDIRECTED EDGE person_person (FROM persons, TO persons, connect_time int)
+CREATE UNDIRECTED EDGE all_to_skill (FROM *, TO skill)
+CREATE UNDIRECTED EDGE all_to_company (FROM *, TO company)
+CREATE GRAPH work_graph(*)
+  
+EXPORT SCHEMA work_graph
+ 
+SET sys.data_root="./"
+CREATE LOADING JOB load_data FOR GRAPH work_graph {
+    LOAD "$sys.data_root/small_companies"
+        TO VERTEX company VALUES ($0, $0, $2)
+        USING HEADER="false", SEPARATOR=",", QUOTE="double";
+    LOAD "$sys.data_root/small_persons"
+        TO VERTEX persons VALUES ($0, $0, $1, $2)
+            WHERE to_int($2) >= 0
+        USING HEADER="false", SEPARATOR=",", QUOTE="double";
+# Example of flattening a multi-valued field
+    LOAD "$sys.data_root/small_persons"
+        TO temp_table member_skill_table (memberID, skillID)
+            VALUES ($0, flatten($3, "|", 1))
+        USING HEADER="false", SEPARATOR=",", QUOTE="double";
+    LOAD temp_table member_skill_table
+        TO VERTEX skill VALUES ($"skillID", $"skillID");
+ 
+    LOAD "$sys.data_root/small_person_company"
+        TO EDGE person_work_company VALUES($0, $1, $2, $3, $4)
+            WHERE to_int($4) >= 0
+        USING HEADER="false", SEPARATOR=",",  QUOTE="double";
+    LOAD "$sys.data_root/small_person_person"
+        TO EDGE person_person VALUES($0, $1, $2)
+            WHERE to_int($2) >= 0
+        USING HEADER="false", SEPARATOR=",", QUOTE="double";
+     
+# Note how $0 and $1 indicate what type of data is in $3 and $2, respectively,
+# so that the VALUES $2 and $3 can explicitly state the data type.
+    LOAD "$sys.data_root/small_all_to_all"
+        TO EDGE all_to_skill VALUES ($2 company, $3 skill)
+            WHERE $0 == "s" AND $1 == "c",
+        TO EDGE all_to_skill VALUES ($2 persons, $3 skill)
+            WHERE $0 == "s" AND $1 == "m",
+        TO EDGE all_to_skill VALUES ($2 skill, $3 skill)
+            WHERE $0 == "s" AND $1 == "s",
+        TO EDGE all_to_company VALUES ($2 company, $3 company)
+            WHERE $0 == "c" AND $1 == "c",
+        TO EDGE all_to_company VALUES ($2 persons, $3 company)
+            WHERE $0 == "c" AND $1 == "m",
+        TO EDGE all_to_company VALUES ($2 skill, $3 company)
+            WHERE $0 == "c" AND $1 == "s"
+        USING HEADER="false", SEPARATOR=",", QUOTE="double";
+}
+RUN JOB load_data

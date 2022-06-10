@@ -1,0 +1,14 @@
+GSQL > RUN QUERY companyByCountry("us")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"val.size()": 2},
+    {"comp": "company4"},
+    {"comp": "company1"}
+  ]
+}

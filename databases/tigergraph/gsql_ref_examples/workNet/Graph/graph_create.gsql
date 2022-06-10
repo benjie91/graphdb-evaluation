@@ -1,0 +1,32 @@
+# Updated 2/24/18 for v1.2
+# Updated 5/1/18 for v2.0
+DROP ALL
+CREATE VERTEX person(PRIMARY_ID personId STRING, id STRING, locationId STRING, skillSet SET<INT>, skillList LIST<INT>, interestSet SET<STRING COMPRESS>, interestList LIST<STRING COMPRESS>)
+CREATE VERTEX company(PRIMARY_ID clientId STRING, id STRING, country STRING)
+CREATE UNDIRECTED EDGE worksFor(FROM person, TO company, startYear INT, startMonth INT, fullTime BOOL)
+CREATE GRAPH workNet(*)
+
+USE GRAPH workNet // v1.2
+CREATE LOADING JOB loadMember FOR GRAPH workNet {
+  DEFINE FILENAME f;
+  LOAD f
+    TO VERTEX person VALUES($0, $0, $1, _, _, SPLIT($3,"|"), SPLIT($3,"|") ),
+    TO TEMP_TABLE t2(id, skill) VALUES ($0, flatten($2,"|",1));
+
+  LOAD TEMP_TABLE t2
+    TO VERTEX person VALUES($0, _, _, $"skill", $"skill", _, _);
+}
+
+CREATE LOADING JOB loadCompany FOR GRAPH workNet {
+  DEFINE FILENAME f;
+  LOAD f TO VERTEX company VALUES($0, $0, $1);
+}
+
+CREATE LOADING JOB loadMemberCompany FOR GRAPH workNet {
+  DEFINE FILENAME f;
+  LOAD f TO EDGE worksFor VALUES($0, $1, $2, $3, $4);
+}
+
+RUN LOADING JOB loadMember USING f="./persons"
+RUN LOADING JOB loadCompany USING f="./companies"
+RUN LOADING JOB loadMemberCompany USING f="./person_company"

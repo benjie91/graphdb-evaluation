@@ -1,0 +1,22 @@
+# give each user post an accumulated rating based on the subject and how many likes it has
+# This query is equivalent to the query ratePosts shown above
+CREATE QUERY ratePosts2() FOR GRAPH socialNet {     
+    SumAccum<INT> @rating = 0;
+    allPeople = {person.*};
+ 
+    results = SELECT v FROM allPeople -(:e)-> post:v
+        ACCUM IF e.type == "posted" THEN
+                IF v.subject == "cats" THEN
+                  v.@rating += -1     # -1 if post is about cats
+                ELSE IF v.subject == "Graphs" THEN
+                  v.@rating += 2      # +2 if post is about graphs
+                ELSE IF v.subject == "tigergraph" THEN
+                  v.@rating += 10     # +10 if post is about tigergraph
+                END
+              ELSE IF e.type == "liked" THEN
+                v.@rating += 3        # +3 each time post was liked
+            END
+        ORDER BY v.@rating DESC
+        LIMIT 5;
+    PRINT results;
+}

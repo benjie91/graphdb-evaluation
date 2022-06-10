@@ -1,0 +1,14 @@
+GSQL > RUN QUERY udfExample()
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"greater_than_three(x)": true},
+    {"y": false},
+    {"reverse(abc)": "cba"}
+  ]
+}

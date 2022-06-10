@@ -1,0 +1,4 @@
+# Print two vertices
+CREATE QUERY printOneBagVertices(BAG<VERTEX> va) FOR GRAPH socialNet   {
+  PRINT va;
+}

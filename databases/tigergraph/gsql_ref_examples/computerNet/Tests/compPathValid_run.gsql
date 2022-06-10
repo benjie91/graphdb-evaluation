@@ -1,0 +1,5 @@
+RUN QUERY compPathValid("c10","c12",true)
+RUN QUERY compPathValid("c1","c12",true)
+RUN QUERY compPathValid("c24","c25",true)
+RUN QUERY compPathValid("c24","c25",true)
+RUN QUERY compPathValid("c24","c25",false)

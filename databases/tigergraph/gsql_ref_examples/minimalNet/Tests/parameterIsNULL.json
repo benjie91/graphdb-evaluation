@@ -1,0 +1,20 @@
+GSQL > RUN QUERY parameterIsNULL(_)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"p is null": "p is null"}]
+}
+GSQL > RUN QUERY parameterIsNULL(3)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"p is not null": "p is not null"}]
+}

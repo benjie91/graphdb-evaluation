@@ -1,0 +1,46 @@
+GSQL > RUN QUERY filterEx(["person1","person2"],2016)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{
+    "L0": [
+      {
+        "v_id": "person1",
+        "attributes": {
+          "L0.@diffCountry": ["company2"],
+          "L0.@recentEmplr": ["company1"],
+          "L0.@allCountry": [
+            "company2",
+            "company1"
+          ],
+          "L0.@allEmplr": [
+            "company1",
+            "company2"
+          ]
+        },
+        "v_type": "person"
+      },
+      {
+        "v_id": "person2",
+        "attributes": {
+          "L0.@diffCountry": ["company1"],
+          "L0.@recentEmplr": [],
+          "L0.@allCountry": [
+            "company2",
+            "company1"
+          ],
+          "L0.@allEmplr": [
+            "company1",
+            "company2"
+          ]
+        },
+        "v_type": "person"
+      }
+    ],
+    "yr": 2016
+  }]
+}

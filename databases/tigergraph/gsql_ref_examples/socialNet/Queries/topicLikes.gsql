@@ -1,0 +1,28 @@
+# Show post topics liked by users and show total likes per topic
+CREATE QUERY topicLikes() FOR GRAPH socialNet   {
+ SetAccum<STRING> @@personPosts;
+ SumAccum<INT> @postLikes;
+ MapAccum<STRING,INT> @@likesByTopic;
+
+
+  start = {person.*};
+
+  # Find all user posts and generate a set of post topics
+  # (set has no duplicates)
+  posts = SELECT g FROM start - (posted) -> :g
+          ACCUM @@personPosts += g.subject;
+
+  # Use set of topics to increment how many times a specfic
+  #  post is liked by other users
+  likedPosts = SELECT f FROM start - (liked) -> :f
+               ACCUM FOREACH x in @@personPosts DO
+                         CASE WHEN (f.subject == x) THEN
+                           f.@postLikes += 1
+                         END
+                     END
+               # Aggregate all liked totals by topic
+               POST-ACCUM @@likesByTopic += (f.subject -> f.@postLikes);
+
+  # Display the number of likes per topic
+  PRINT @@likesByTopic;
+}

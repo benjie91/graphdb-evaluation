@@ -1,0 +1,5 @@
+RUN QUERY countAtLocation("us")
+RUN QUERY deleteEx2()
+RUN QUERY countAtLocation("us")
+RUN QUERY deleteEx()
+RUN QUERY countAtLocation("us")

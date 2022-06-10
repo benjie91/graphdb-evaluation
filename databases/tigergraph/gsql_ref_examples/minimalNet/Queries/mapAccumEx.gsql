@@ -1,0 +1,50 @@
+#MapAccum Example
+CREATE QUERY mapAccumEx() FOR GRAPH minimalNet   {
+
+  #Map(Key, Value)
+  # Keys can be INT or STRING only
+  MapAccum<STRING, INT> @@intMapAccum;
+  MapAccum<INT, STRING> @@stringMapAccum;
+  MapAccum<INT, MapAccum<STRING, STRING>> @@nestedMapAccum;
+
+  @@intMapAccum += ("foo" -> 1);
+  @@intMapAccum.clear();
+
+  @@intMapAccum += ("foo" -> 3);
+  @@intMapAccum += ("bar" -> 2);
+  @@intMapAccum += ("baz" -> 2);
+  @@intMapAccum += ("baz" -> 1); #add 1 to existing value
+
+  PRINT @@intMapAccum.containsKey("baz");
+  PRINT @@intMapAccum.get("bar");
+  PRINT @@intMapAccum.get("root");
+
+  @@stringMapAccum += (1 -> "apple");
+  @@stringMapAccum += (2 -> "pear");
+  @@stringMapAccum += (3 -> "banana");
+  @@stringMapAccum += (4 -> "a");
+  @@stringMapAccum += (4 -> "b"); #append "b" to existing value
+  @@stringMapAccum += (4 -> "c"); #append "c" to existing value
+
+  PRINT @@intMapAccum;
+  PRINT @@stringMapAccum;
+
+  #Checking and getting keys
+  if @@stringMapAccum.containsKey(1) THEN
+    PRINT @@stringMapAccum.get(1);
+  END;
+
+  #Map nesting
+  @@nestedMapAccum += ( 1 -> ("foo"  -> "bar") );
+  @@nestedMapAccum += ( 1 -> ("flip" -> "top") );
+  @@nestedMapAccum += ( 2 -> ("fizz" -> "pop") );
+  @@nestedMapAccum += ( 1 -> ("foo"  -> "s") );
+
+  PRINT @@nestedMapAccum;
+
+  if @@nestedMapAccum.containsKey(1) THEN
+    if @@nestedMapAccum.get(1).containsKey("foo") THEN
+       PRINT @@nestedMapAccum.get(1).get("foo");
+    END;
+  END;
+}

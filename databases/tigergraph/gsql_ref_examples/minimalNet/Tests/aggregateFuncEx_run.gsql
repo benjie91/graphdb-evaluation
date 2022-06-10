@@ -1,0 +1,1 @@
+RUN QUERY aggregateFuncEx([1,2,5])

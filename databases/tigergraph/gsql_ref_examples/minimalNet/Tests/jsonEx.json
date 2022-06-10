@@ -1,0 +1,15 @@
+GSQL > RUN QUERY jsonEx("[123]","{\"abc\":123}")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{
+    "jsonA": [123],
+    "jsonO": {"abc": 123}
+  }]
+}
+GSQL > RUN QUERY jsonEx("{123}","{\"abc\":\"123\"}")
+Runtime Error: {123} cannot be parsed as a json array.

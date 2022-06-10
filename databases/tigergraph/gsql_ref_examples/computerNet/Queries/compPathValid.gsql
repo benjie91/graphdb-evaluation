@@ -1,0 +1,54 @@
+CREATE QUERY compPathValid (vertex<computer> src, vertex<computer> tgt, BOOL enExcp)
+FOR GRAPH computerNet  {
+# Find valid paths in a computer network from a source to a target.
+# Stop search once you have found some paths.
+# 3 Exceptions: (1) Negative connection speed, (2) Slow connection speed, (3) No path.
+# Set enExcp=true to raise exceptions. enExcp=false will find paths, good or bad.
+
+	OrAccum @@reached, @visited;
+	ListAccum<STRING> @paths;
+	DOUBLE minSpeed = 0.4;
+	INT err;
+
+	EXCEPTION negSpeed (40001);
+	EXCEPTION slowSpeed (40002);
+	EXCEPTION notReached (40003);
+
+	TRY
+		Start = {src};
+		# Initialize: path to src is itself.
+		Start = SELECT s
+		FROM Start:s
+			ACCUM s.@paths = s.id;
+
+		WHILE Start.size() != 0 AND NOT @@reached DO
+			Start = SELECT t
+				FROM Start:s -(:e)-> :t
+				WHERE t.@visited == false
+				ACCUM CASE
+					WHEN e.connectionSpeed < 0 THEN err = 1
+					WHEN e.connectionSpeed < minSpeed THEN err = 2
+					WHEN t == tgt THEN @@reached += true
+					END,
+			# List1 * List2 -> List(each elem of List1 concat w/each elem of List2)
+					t.@paths += (s.@paths * ["~"]) * [t.id]
+				POST-ACCUM t.@visited = true;
+			IF err == 1 AND enExcp THEN
+				RAISE negSpeed ("Negative Speed");
+			ELSE IF err == 2 AND enExcp THEN
+				RAISE slowSpeed ("Slow Speed");
+			END;
+		END; # WHILE
+
+		IF NOT @@reached AND enExcp THEN
+			RAISE notReached ("No path to target");
+		ELSE
+			Result = {tgt};
+                        PRINT Result[Result.@paths]; // api v2
+		END;
+	EXCEPTION
+		WHEN negSpeed THEN PRINT "bad path: negative speed";
+		WHEN slowSpeed THEN PRINT "bad path: slow speed";
+		WHEN notReached THEN PRINT "no path from source to target";
+	END;
+}

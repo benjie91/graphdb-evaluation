@@ -1,0 +1,59 @@
+GSQL > RUN QUERY selectVertexEx("/home/tigergraph/tigergraph/document/examples/gsql_ref/data/selectVertexInput.csv")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"S": [
+    {
+      "v_id": "person5",
+      "attributes": {
+        "gender": "Female",
+        "id": "person5"
+      },
+      "v_type": "person"
+    },
+    {
+      "v_id": "person1",
+      "attributes": {
+        "gender": "Male",
+        "id": "person1"
+      },
+      "v_type": "person"
+    },
+    {
+      "v_id": "3",
+      "attributes": {
+        "postTime": "2011-02-05 01:02:44",
+        "subject": "cats"
+      },
+      "v_type": "post"
+    },
+    {
+      "v_id": "5",
+      "attributes": {
+        "postTime": "2011-02-06 01:02:02",
+        "subject": "tigergraph"
+      },
+      "v_type": "post"
+    },
+    {
+      "v_id": "person6",
+      "attributes": {
+        "gender": "Male",
+        "id": "person6"
+      },
+      "v_type": "person"
+    },
+    {
+      "v_id": "4",
+      "attributes": {
+        "postTime": "2011-02-07 05:02:51",
+        "subject": "coffee"
+      },
+      "v_type": "post"
+    }
+  ]}]
+}

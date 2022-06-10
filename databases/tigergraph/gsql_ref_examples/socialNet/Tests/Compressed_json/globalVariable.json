@@ -1,0 +1,47 @@
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [ {"@@edgeSet": [{}]},
+    {"dt": "2010-01-14 11:23:05"},
+    {
+      "gender": "Male",
+      "v": "person1"
+    },
+    {
+      "vx": "person5",
+      "gender": "Female"
+    },
+    {
+      "vx": "person1",
+      "gender": "Male"
+    },
+    {
+      "vx": "person2",
+      "gender": "Female"
+    },
+    {
+      "vx": "person3",
+      "gender": "Male"
+    },
+    {
+      "vx": "person8",
+      "gender": "Male"
+    },
+    {
+      "vx": "person6",
+      "gender": "Male"
+    },
+    {
+      "vx": "person4",
+      "gender": "Female"
+    },
+    {
+      "vx": "person7",
+      "gender": "Male"
+    }
+  ]
+}

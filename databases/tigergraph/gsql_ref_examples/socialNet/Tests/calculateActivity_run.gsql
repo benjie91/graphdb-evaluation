@@ -1,0 +1,2 @@
+RUN QUERY calculateActivity("person1")
+RUN QUERY calculateActivity("person5")

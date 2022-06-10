@@ -1,0 +1,2 @@
+RUN QUERY staticAccumEx(3)
+RUN QUERY staticAccumEx(-5)

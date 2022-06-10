@@ -1,0 +1,32 @@
+GSQL > RUN QUERY employeeByCountry("us")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"val.size()": 5},
+    {"employee": "person7"},
+    {"employee": "person4"},
+    {"employee": "person9"},
+    {"employee": "person10"},
+    {"employee": "person1"}
+  ]
+}
+GSQL > RUN QUERY employeeByCountry("jp")
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"val.size()": 3},
+    {"employee": "person3"},
+    {"employee": "person6"},
+    {"employee": "person12"}
+  ]
+}

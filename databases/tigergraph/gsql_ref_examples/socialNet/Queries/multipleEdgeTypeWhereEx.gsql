@@ -1,0 +1,10 @@
+CREATE QUERY multipleEdgeTypeWhereEx(vertex<person> m1) FOR GRAPH socialNet {
+  allUser = {m1};
+  FilteredUser = SELECT s
+                 FROM allUser:s - ((posted|liked|friend):e) -> (post|person):t
+                 # WHERE e.actionTime > epoch_to_datetime(1) AND t.gender == "Male";
+                 WHERE ( e.type == "liked" AND e.actionTime > epoch_to_datetime(1) ) OR
+                       ( e.type == "friend" AND t.gender == "Male" )
+                 ;
+  PRINT FilteredUser;
+}

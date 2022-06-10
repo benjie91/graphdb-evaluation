@@ -1,0 +1,16 @@
+# find all vertices which are reachable from a starting seed vertex (i.e., breadth-first search)
+CREATE QUERY reachable(vertex<person> seed) FOR GRAPH workNet
+{
+    OrAccum @visited;
+    reachableVertices = {};        # empty vertex set
+    visitedVertices (ANY) = {seed};  # set that can contain ANY type of vertex
+
+    WHILE visitedVertices.size() !=0 DO        # loop terminates when all neighbors are visited
+        visitedVertices = SELECT s              # s is all neighbors of visitedVertices which have not been visited
+                FROM visitedVertices-(:e)->:s
+                WHERE s.@visited == false
+                POST-ACCUM s.@visited = true;
+        reachableVertices = reachableVertices UNION visitedVertices;
+    END;
+    PRINT reachableVertices;
+}

@@ -1,0 +1,18 @@
+GSQL > RUN QUERY bitOperationTest()
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [
+    {"80>>2": 20},
+    {"80<<2": 320},
+    {"2+80>>4": 5},
+    {"2|3": 3},
+    {"2&3": 2},
+    {"2|3+2": 7},
+    {"2&3-2": 0}
+  ]
+}

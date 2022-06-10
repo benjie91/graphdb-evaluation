@@ -1,0 +1,15 @@
+# tally male and female friends of the starting vertex
+CREATE QUERY countGenderOfFriends(vertex<person> seed) FOR GRAPH socialNet   {
+       SumAccum<INT> @@males = 0;
+       SumAccum<INT> @@females = 0;
+       SumAccum<INT> @@unknown = 0;
+       startingVertex = {seed};
+
+       people = SELECT v FROM startingVertex -(friend:e)->:v
+              ACCUM CASE v.gender
+                WHEN "Male" THEN @@males += 1
+                WHEN "Female" THEN @@females +=1
+                ELSE @@unknown += 1
+              END;
+    PRINT @@males, @@females, @@unknown;
+}

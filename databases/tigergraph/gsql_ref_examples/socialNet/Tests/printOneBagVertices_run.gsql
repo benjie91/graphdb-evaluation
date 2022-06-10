@@ -1,0 +1,1 @@
+RUN QUERY printOneBagVertices([("person1","person"), ("11","post")])

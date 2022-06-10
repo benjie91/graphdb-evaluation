@@ -1,0 +1,27 @@
+# Updated 2/24/18 for v1.2
+# Updated 5/1/18 for v2.0
+DROP ALL
+CREATE VERTEX person(PRIMARY_ID personId UINT, id STRING)
+CREATE UNDIRECTED EDGE friend(FROM person, TO person)
+CREATE UNDIRECTED EDGE coworker(FROM person, TO person)
+CREATE GRAPH friendNet(*)
+
+USE GRAPH friendNet // v1.2
+CREATE LOADING JOB loadMember FOR GRAPH friendNet {
+  DEFINE FILENAME f;
+  LOAD f TO VERTEX person VALUES($0, $0);
+}
+
+CREATE LOADING JOB loadFriend FOR GRAPH friendNet {
+  DEFINE FILENAME f;
+  LOAD f TO EDGE friend VALUES($0, $1);
+}
+
+CREATE LOADING JOB loadCoworker FOR GRAPH friendNet {
+  DEFINE FILENAME f;
+  LOAD f TO EDGE coworker VALUES($0, $1);
+}
+
+RUN LOADING JOB loadMember USING f="./persons"
+RUN LOADING JOB loadFriend USING f="./friends"
+RUN LOADING JOB loadCoworker USING f="./coworkers"

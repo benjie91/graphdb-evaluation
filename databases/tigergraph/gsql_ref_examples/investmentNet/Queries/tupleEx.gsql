@@ -1,0 +1,23 @@
+CREATE QUERY tupleEx(VERTEX<person> p) FOR GRAPH investmentNet{
+  #TYPEDEF TUPLE <UINT age, STRING mothersName> SECRET_INFO;       # already defined in schema
+  TYPEDEF TUPLE <STRING ticker, FLOAT price, DATETIME orderTime> ORDER_RECORD; # new for query
+ 
+  SetAccum<SECRET_INFO> @@info;
+  ListAccum<ORDER_RECORD> @@orderRecords;
+  MapAccum<STRING, DOUBLE> @@portf;       # corresponds to MAP<STRING, DOUBLE> attribute
+ 
+  INIT = {p};
+ 
+  # Get person p's secret_info and portfolio
+  X = SELECT v FROM INIT:v
+      ACCUM @@portf += v.portfolio, @@info += v.secretInfo;
+ 
+  # Search person p's orders to record ticker, price, and order time.
+  # Note that the tuple gathers info from both edges and vertices.
+  orders = SELECT t
+      FROM INIT:s -(makeOrder:e)->stockOrder:t
+      ACCUM @@orderRecords += ORDER_RECORD(t.ticker, t.price, e.orderTime);
+ 
+  PRINT @@portf, @@info;
+  PRINT @@orderRecords;
+}

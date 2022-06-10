@@ -1,0 +1,27 @@
+# Demonstrate Set & Bag operators
+CREATE QUERY setOperatorsEx() FOR GRAPH minimalNet   {
+  SetAccum<INT> @@setA, @@setB, @@AunionB, @@AintsctB, @@AminusB;
+  BagAccum<INT> @@bagD, @@bagE, @@DunionE, @@DintsctE, @@DminusE;
+  BagAccum<INT> @@DminusA, @@DunionA, @@AunionBbag;
+
+  BOOL x;
+
+  @@setA = (1,2,3,4);      PRINT @@setA;
+  @@setB = (2,4,6,8);      PRINT @@setB;
+   
+  @@AunionB = @@setA UNION @@setB ;      PRINT @@AunionB;   // (1, 2, 3, 4, 6, 8)
+  @@AintsctB = @@setA INTERSECT @@setB;  PRINT @@AintsctB;   // (2, 4)
+  @@AminusB = @@setA MINUS @@setB ;      PRINT @@AminusB;   // C = (1, 3)
+   
+  @@bagD = (1,2,2,3);      PRINT @@bagD;
+  @@bagE = (2,3,5,7);      PRINT @@bagE;
+   
+  @@DunionE = @@bagD UNION @@bagE;     PRINT @@DunionE;   // (1, 2, 2, 2, 3, 3, 5, 7)
+  @@DintsctE = @@bagD INTERSECT @@bagE; PRINT @@DintsctE; // (2, 3)
+  @@DminusE = @@bagD MINUS @@bagE;     PRINT @@DminusE;   // (1, 2)
+  @@DminusA = @@bagD MINUS @@setA;     PRINT @@DminusA;   // (2)
+  @@DunionA = @@bagD UNION @@setA;     PRINT @@DunionA;   // (1, 1, 2, 2, 2, 3, 3, 4)
+                                                          // because bag UNION set is a bag
+  @@AunionBbag = @@setA UNION @@setB;  PRINT @@AunionBbag;  // (1, 2, 3, 4, 6, 8)
+                                                          // because set UNION set is a set
+}

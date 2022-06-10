@@ -1,0 +1,16 @@
+version: '3'
+services:
+  tigergraph:
+    image: docker.tigergraph.com/tigergraph:3.5.3
+    container_name: tigergraph
+    ports:
+      - "14022:22"
+      - "9000:9000"
+      - "14240:14240"
+    ulimits:
+      nofile:
+        soft: 1000000
+        hard: 1000000
+    volumes:
+      - ./graph_create.gsql:/home/tigergraph/graph_create.gsql
+      - ../../dataset:/home/tigergraph/dataset

@@ -1,0 +1,2 @@
+RUN QUERY countFriendsOf2("person2", true)
+RUN QUERY countFriendsOf2("person2", false)

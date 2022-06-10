@@ -1,0 +1,33 @@
+# Assign global variable at various places
+CREATE QUERY globalVariable(VERTEX<person> m1) FOR GRAPH socialNet {
+ 
+  SetAccum<VERTEX<person>> @@personSet;
+  SetAccum<Edge> @@edgeSet;
+ 
+  # Declare global variables
+  STRING gender;
+  DATETIME dt;
+  VERTEX v;
+  VERTEX<person> vx;
+  EDGE ee;
+ 
+  allUser = {person.*};
+  allUser = SELECT src
+            FROM allUser:src - (liked:e) -> post
+            ACCUM dt = e.actionTime,
+                  ee = e,           # assignment does NOT take effect yet
+                  @@edgeSet += ee   # so ee is null
+            POST-ACCUM @@personSet += src;
+  PRINT @@edgeSet;  # EMPTY because ee was frozen in the SELECT statement.
+  PRINT dt;         # actionTime of the last edge e processed.
+ 
+  v = m1;              # assign a vertex value to a global variable.
+  gender = m1.gender;  # assign a vertex's attribute value to a global variable.
+  PRINT v, gender;
+ 
+  FOREACH m IN @@personSet DO
+     vx = m;             # global variable assignment inside FOREACH takes place.
+     gender = m.gender;  # global variable assignment inside FOREACH takes place.
+     PRINT vx, gender;   # display the values for each iteration of the loop.
+  END;
+}

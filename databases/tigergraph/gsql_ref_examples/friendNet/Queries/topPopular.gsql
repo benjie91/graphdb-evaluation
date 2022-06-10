@@ -1,0 +1,16 @@
+# find the most popular people, sorting first based on the number as friends
+# and then in case of a tie by the number of coworkers
+CREATE QUERY topPopular() FOR GRAPH friendNet
+{
+	SumAccum<INT> @numFriends;
+	SumAccum<INT> @numCoworkers;
+	start = {person.*};
+
+	result = SELECT v FROM start -((friend|coworker):e)-> person:v
+	       	 ACCUM CASE WHEN e.type == "friend" THEN v.@numFriends += 1
+		       	    WHEN e.type == "coworker" THEN v.@numCoworkers += 1
+		       END
+		 ORDER BY v.@numFriends DESC, v.@numCoworkers DESC;
+
+	PRINT result;
+}

@@ -1,0 +1,22 @@
+CREATE QUERY sampleEx3() FOR GRAPH computerNet
+{
+    MapAccum<STRING,ListAccum<STRING>> @@absEdges;
+    SumAccum<INT> @@totalAbs;
+    MapAccum<STRING,ListAccum<STRING>> @@pctEdges;
+    SumAccum<INT> @@totalPct;
+
+    start = {computer.*};
+
+    # Sample one outgoing edge per source vertex. 
+    absSample = SELECT v FROM start:s -(:e)-> :v
+             SAMPLE 1 EDGE WHEN s.outdegree() >= 1    # sample 1 target vertex from each source vertex
+             ACCUM @@absEdges += (s.id -> v.id),
+                   @@totalAbs += 1;
+    PRINT @@totalAbs, @@absEdges;
+
+    pctSample = SELECT v FROM start:s -(:e)-> :v
+             SAMPLE 33% EDGE WHEN s.outdegree() >= 3  # select ~1/3 of edges when outdegree >= 3
+             ACCUM @@pctEdges += (s.id -> v.id),
+                   @@totalPct += 1;
+    PRINT @@totalPct, @@pctEdges;
+}

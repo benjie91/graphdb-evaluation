@@ -1,0 +1,30 @@
+GSQL > RUN QUERY coalesceFuncEx(_,_)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"coalesce(p1,p2,999.5)": 999}]
+}
+GSQL > RUN QUERY coalesceFuncEx(1,2)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"coalesce(p1,p2,999.5)": 1}]
+}
+GSQL > RUN QUERY coalesceFuncEx(_,2.5)
+{
+  "error": false,
+  "message": "",
+  "version": {
+    "schema": 0,
+    "api": "v2"
+  },
+  "results": [{"coalesce(p1,p2,999.5)": 2}]
+}

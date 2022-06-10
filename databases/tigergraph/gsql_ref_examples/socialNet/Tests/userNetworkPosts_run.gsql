@@ -1,0 +1,1 @@
+RUN QUERY userNetworkPosts("person1", "Graphs")
