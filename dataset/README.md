@@ -1,6 +1,10 @@
 # Dataset
 
+## Foursquare Dataset
+
 **Source:** _https://archive.org/details/201309_foursquare_dataset_umn_
+
+Instructions to load the dataset into the various DB has been provided in the respective database README file
 
 ### Description
 
